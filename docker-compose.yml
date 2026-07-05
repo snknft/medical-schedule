@@ -6,6 +6,7 @@ services:
       - "8080:8080"
     environment:
       H2_CONSOLE_ENABLED: "false"
+      MEDISALUD_CLOCK_FIXED_NOW: ${MEDISALUD_CLOCK_FIXED_NOW:-}
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:8080/actuator/health/readiness"]
       interval: 30s

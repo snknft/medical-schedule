@@ -15,13 +15,14 @@ import org.springframework.context.annotation.Configuration;
 public class ClockConfig {
 
     /**
-     * Creates the application clock.
+     * Provides the application clock used by time-sensitive rules.
      *
-     * <p>By default, the system clock is used. For local demonstrations or automated tests,
-     * a fixed date-time can be configured with the {@code medisalud.clock.fixed-now}
-     * property using ISO-8601 local date-time format.</p>
+     * <p>By default, the application uses the system clock. For local demonstrations
+     * and deterministic validation of time-sensitive flows, the clock can be fixed
+     * by setting the {@code medisalud.clock.fixed-now} property with an ISO-8601
+     * local date-time value, for example {@code 2026-07-06T07:30:00}.</p>
      *
-     * @param fixedNow optional fixed date-time used to override the system clock
+     * @param fixedNow optional ISO-8601 local date-time used to fix the application clock
      * @return the configured application clock
      */
     @Bean

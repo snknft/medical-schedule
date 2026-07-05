@@ -1,75 +1,183 @@
-# Arquitectura y patrones aplicados
+# Arquitectura
 
-## Arquitectura
+## Enfoque
 
-La solución usa arquitectura hexagonal / clean architecture.
+La solución utiliza arquitectura hexagonal, también conocida como Ports and Adapters.
+
+El objetivo es mantener el núcleo de negocio aislado de detalles técnicos como REST, JPA, H2, Flyway o Spring Data. Esto permite probar reglas de negocio sin depender de infraestructura y facilita reemplazar adaptadores sin modificar el dominio.
+
+## Estructura
 
 ```text
-com.ceiba.medisalud
-├── domain          # Modelo, reglas, políticas y puertos
-├── application     # Casos de uso y comandos/queries
-└── infrastructure  # REST, JPA, Flyway, configuración, filtros y observabilidad
+src/main/java/com/ceiba/medisalud
+├── domain
+│   ├── exception
+│   ├── model
+│   ├── policy
+│   ├── repository
+│   └── service
+├── application
+│   ├── command
+│   ├── query
+│   └── usecase
+└── infrastructure
+    ├── config
+    ├── persistence
+    ├── rest
+    └── seed
 ```
 
-El dominio no depende de Spring ni de JPA. Esa regla se valida con ArchUnit.
+## Capas
+
+### Domain
+
+Contiene el núcleo de negocio:
+
+- Modelos de dominio.
+- Políticas de negocio.
+- Servicios de dominio.
+- Excepciones de dominio.
+- Puertos de repositorio.
+
+Esta capa no depende de Spring, JPA ni REST.
+
+### Application
+
+Contiene los casos de uso:
+
+- Registro de médicos.
+- Registro de pacientes.
+- Agendamiento de citas.
+- Cancelación de citas.
+- Reprogramación.
+- Consulta de disponibilidad.
+- Listado con filtros.
+
+La capa de aplicación coordina transacciones y usa puertos del dominio.
+
+### Infrastructure
+
+Contiene los adaptadores técnicos:
+
+- Controladores REST.
+- DTOs request/response.
+- Entidades JPA.
+- Repositorios Spring Data.
+- Adaptadores de persistencia.
+- Configuración de Spring.
+- Migraciones Flyway.
+- Carga inicial de datos.
+- Filtros de correlación.
 
 ## Patrones aplicados
 
-### Ports and Adapters
+### Hexagonal Architecture / Ports and Adapters
 
-Los casos de uso hablan con interfaces del dominio, no con implementaciones técnicas.
+Los casos de uso dependen de puertos del dominio, no de implementaciones técnicas.
 
-Ejemplos:
+Puertos principales:
 
-- `AppointmentRepositoryPort`
-- `DoctorRepositoryPort`
-- `PatientRepositoryPort`
-- `PenaltyRepositoryPort`
-- `SlotReservationPort`
+```text
+DoctorRepositoryPort
+PatientRepositoryPort
+AppointmentRepositoryPort
+PenaltyRepositoryPort
+SlotReservationPort
+```
 
-Adaptadores:
+Adaptadores principales:
 
-- `AppointmentJpaRepositoryAdapter`
-- `DoctorJpaRepositoryAdapter`
-- `PatientJpaRepositoryAdapter`
-- `PenaltyJpaRepositoryAdapter`
-- `JpaSlotReservationAdapter`
+```text
+DoctorJpaRepositoryAdapter
+PatientJpaRepositoryAdapter
+AppointmentJpaRepositoryAdapter
+PenaltyJpaRepositoryAdapter
+JpaSlotReservationAdapter
+```
 
 ### Repository Pattern
 
-Centraliza persistencia por agregado y evita que los casos de uso conozcan Spring Data JPA.
+El acceso a datos se realiza mediante puertos de repositorio. Esto evita que los casos de uso conozcan detalles de JPA o Spring Data.
 
 ### Strategy Pattern
 
-`WorkingHoursPolicy` permite reemplazar la política de horarios sin modificar los casos de uso.
+`WorkingHoursPolicy` encapsula las reglas de horarios laborales y generación de franjas disponibles.
 
 Implementación actual:
 
-- `DefaultMedicalWorkingHoursPolicy`
+```text
+DefaultMedicalWorkingHoursPolicy
+```
 
 ### Factory Pattern
 
-`AppointmentFactory` centraliza la creación de una cita programada y evita estados iniciales inconsistentes.
+`AppointmentFactory` centraliza la creación de citas nuevas y garantiza que nazcan en estado `PROGRAMADA`.
 
 ### Specification Pattern
 
-`AppointmentJpaSpecifications` compone filtros opcionales para la búsqueda de citas.
+`AppointmentJpaSpecifications` compone filtros dinámicos para búsqueda de citas por médico, paciente, estado y rango de fechas.
 
 ### Mapper Pattern
 
-Se separan modelos REST, entidades JPA y modelos de dominio.
+Se separan explícitamente:
 
-Ejemplos:
+- DTOs REST.
+- Modelos de dominio.
+- Entidades JPA.
 
-- `AppointmentJpaMapper`
-- `PatientJpaMapper`
-- `DoctorJpaMapper`
-- `ApiResponseMapper`
+Esto permite evolucionar la API o la persistencia sin contaminar el dominio.
 
-### Unit of Work / Transaction Script controlado
+### Guarded Slot Reservation Pattern
 
-Cada caso de uso crítico está delimitado por `@Transactional`, especialmente agendamiento, cancelación y reprogramación.
+La reserva activa se protege con locks lógicos:
 
-### Guarded Slot Reservation
+```text
+doctor_slot_locks
+patient_slot_locks
+```
 
-`SlotReservationPort` representa una reserva transaccional de franja. En infraestructura se implementa con tablas de lock y restricciones únicas, protegiendo el sistema de condiciones de carrera.
+Estas tablas tienen restricciones únicas para evitar doble reserva concurrente.
+
+## Persistencia
+
+La base de datos local es H2 en memoria.
+
+El esquema se administra con Flyway:
+
+```text
+src/main/resources/db/migration/V1__create_schema.sql
+src/main/resources/db/migration/V2__seed_reference_data.sql
+```
+
+Hibernate no crea ni actualiza tablas automáticamente:
+
+```yaml
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+```
+
+Esto permite que la evolución del esquema sea explícita, versionada y reproducible.
+
+## Concurrencia
+
+La disponibilidad se valida en dos niveles:
+
+1. Validación funcional en el caso de uso.
+2. Restricciones únicas en tablas de locks.
+
+Esto evita que dos solicitudes concurrentes reserven la misma franja para el mismo médico o para el mismo paciente.
+
+## Observabilidad
+
+La API incluye:
+
+- Spring Boot Actuator.
+- Health, readiness y liveness.
+- `X-Correlation-Id`.
+- Logs estructurados con correlation ID.
+
+## Validación arquitectónica
+
+`ArchitectureTest` usa ArchUnit para verificar que el dominio no dependa de infraestructura.
