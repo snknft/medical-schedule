@@ -9,20 +9,41 @@ import java.util.List;
 
 import com.ceiba.medisalud.domain.model.AvailableSlot;
 
+/**
+ * Implements the default medical working hours and slot generation policy.
+ */
 public class DefaultMedicalWorkingHoursPolicy implements WorkingHoursPolicy {
 
+    /**
+     * Executes the of operation.
+     */
     private static final LocalTime WEEKDAY_OPEN = LocalTime.of(8, 0);
+    /**
+     * Executes the of operation.
+     */
     private static final LocalTime WEEKDAY_CLOSE = LocalTime.of(18, 0);
+    /**
+     * Executes the of operation.
+     */
     private static final LocalTime SATURDAY_OPEN = LocalTime.of(8, 0);
+    /**
+     * Executes the of operation.
+     */
     private static final LocalTime SATURDAY_CLOSE = LocalTime.of(13, 0);
     private static final int SLOT_MINUTES = 30;
 
     private final HolidayProvider holidayProvider;
 
+    /**
+     * Creates a new DefaultMedicalWorkingHoursPolicy instance.
+     */
     public DefaultMedicalWorkingHoursPolicy(HolidayProvider holidayProvider) {
         this.holidayProvider = holidayProvider;
     }
 
+    /**
+     * Determines whether the provided date-time is a valid appointment start.
+     */
     @Override
     public boolean isValidAppointmentStart(LocalDateTime dateTime) {
         if (dateTime == null) {
@@ -38,6 +59,9 @@ public class DefaultMedicalWorkingHoursPolicy implements WorkingHoursPolicy {
                 .anyMatch(slot -> slot.start().equals(dateTime));
     }
 
+    /**
+     * Generates valid appointment slots for the provided date.
+     */
     @Override
     public List<AvailableSlot> generateSlots(LocalDate date) {
         List<AvailableSlot> slots = new ArrayList<>();

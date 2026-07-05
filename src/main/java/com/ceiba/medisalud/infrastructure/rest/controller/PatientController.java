@@ -19,16 +19,25 @@ import com.ceiba.medisalud.infrastructure.rest.mapper.ApiResponseMapper;
 
 import jakarta.validation.Valid;
 
+/**
+ * Exposes REST endpoints for patient operations.
+ */
 @RestController
 @RequestMapping("/api/patients")
 public class PatientController {
 
     private final PatientService patientService;
 
+    /**
+     * Creates a new PatientController instance.
+     */
     public PatientController(PatientService patientService) {
         this.patientService = patientService;
     }
 
+    /**
+     * Handles the REST request that creates a new resource.
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PatientResponse create(@Valid @RequestBody CreatePatientRequest request) {
@@ -41,11 +50,17 @@ public class PatientController {
         )));
     }
 
+    /**
+     * Returns all persisted resources of the current type.
+     */
     @GetMapping
     public List<PatientResponse> findAll() {
         return patientService.findAll().stream().map(ApiResponseMapper::toResponse).toList();
     }
 
+    /**
+     * Handles the REST request that retrieves a patient by identifier.
+     */
     @GetMapping("/{id}")
     public PatientResponse getById(@PathVariable Long id) {
         return ApiResponseMapper.toResponse(patientService.getById(id));

@@ -15,6 +15,9 @@ import jakarta.persistence.UniqueConstraint;
         name = "patients",
         uniqueConstraints = @UniqueConstraint(name = "uk_patient_document", columnNames = "document_number")
 )
+/**
+ * Represents the JPA persistence entity for patient records.
+ */
 public class PatientJpaEntity {
 
     @Id
@@ -36,9 +39,15 @@ public class PatientJpaEntity {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
+    /**
+     * Creates a new PatientJpaEntity instance.
+     */
     protected PatientJpaEntity() {
     }
 
+    /**
+     * Creates a new PatientJpaEntity instance.
+     */
     public PatientJpaEntity(Long id, String fullName, String documentNumber, String phone, String email, LocalDate birthDate) {
         this.id = id;
         this.fullName = fullName;
@@ -48,26 +57,44 @@ public class PatientJpaEntity {
         this.birthDate = birthDate;
     }
 
+    /**
+     * Returns the id value.
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Returns the fullName value.
+     */
     public String getFullName() {
         return fullName;
     }
 
+    /**
+     * Returns the documentNumber value.
+     */
     public String getDocumentNumber() {
         return documentNumber;
     }
 
+    /**
+     * Returns the phone value.
+     */
     public String getPhone() {
         return phone;
     }
 
+    /**
+     * Returns the email value.
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Returns the birthDate value.
+     */
     public LocalDate getBirthDate() {
         return birthDate;
     }

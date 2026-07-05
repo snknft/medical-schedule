@@ -1,63 +1,54 @@
 # MediSalud Appointment API
 
-API REST backend para el sistema de agendamiento de citas médicas de MediSalud.
+API REST para el agendamiento de citas médicas de **MediSalud**.
 
-La solución está construida con **Java 21**, **Spring Boot 3.x**, **Gradle**, **Spring Data JPA**, **H2**, **Flyway**, **Bean Validation**, **JUnit 5**, **ArchUnit**, **JaCoCo** y **Spring Boot Actuator**.
+El proyecto permite registrar médicos y pacientes, reservar citas, consultar disponibilidad por médico, cancelar citas, reprogramarlas y listar citas usando filtros. También incluye validaciones de negocio, persistencia con H2, migraciones con Flyway, pruebas automatizadas y configuración básica para ejecución local.
 
-> No se implementa frontend ni autenticación/autorización porque el enunciado solicita únicamente backend API REST y aclara que la autenticación no es requerida.
+## Tecnologías utilizadas
 
----
-
-## Enfoque de la solución
-
-Este proyecto no está planteado como un CRUD académico. Está organizado como un backend mantenible, testeable y preparado para evolucionar en ambiente enterprise:
-
-- Arquitectura hexagonal / clean architecture.
-- Dominio desacoplado de Spring, JPA y REST.
-- Casos de uso transaccionales.
-- Validaciones de negocio centralizadas.
-- Migraciones versionadas con Flyway.
-- Protección de concurrencia mediante locks lógicos con restricciones únicas en base de datos.
-- Manejo centralizado de errores HTTP.
-- Correlation ID para trazabilidad.
-- Actuator para health, readiness, liveness y métricas.
-- Tests unitarios de reglas críticas.
-- Test de arquitectura con ArchUnit.
-- Reporte de cobertura con JaCoCo.
-- Dockerfile multi-stage y GitHub Actions.
-
----
+- Java 21
+- Spring Boot 3.3.x
+- Gradle
+- Spring Web
+- Spring Data JPA
+- Bean Validation
+- H2 Database
+- Flyway
+- JUnit 5
+- ArchUnit
+- JaCoCo
+- Spring Boot Actuator
+- Docker
+- GitHub Actions
 
 ## Funcionalidades implementadas
 
-- Registro de médicos.
-- Registro de pacientes.
-- Reserva de citas.
-- Consulta de franjas disponibles por médico y rango de fechas.
-- Cancelación de citas.
-- Penalización por cancelación tardía.
-- Bloqueo de paciente con 3 o más penalizaciones en los últimos 30 días.
-- Reprogramación de citas.
-- Marcación de cita como atendida.
-- Listado de citas con filtros opcionales.
-- Carga inicial de médicos de referencia.
+| Código | Funcionalidad | Estado |
+| --- | --- | --- |
+| RF-01 | Registro de médicos | Implementado |
+| RF-02 | Registro de pacientes | Implementado |
+| RF-03 | Reserva de citas | Implementado |
+| RF-04 | Consulta de franjas disponibles por médico y rango de fechas | Implementado |
+| RF-05 | Cancelación de citas con penalización cuando aplica | Implementado |
+| RF-06 | Listado de citas con filtros opcionales | Implementado |
+| RN-06 | Reprogramación de citas | Implementado |
 
----
+Adicionalmente, se incluye la opción de marcar una cita como `ATENDIDA`.
 
-## Reglas de negocio implementadas
+## Reglas de negocio
 
-| Regla | Implementación |
+| Regla | Descripción |
 | --- | --- |
-| RN-01 | Solo se permiten citas en franjas exactas de 30 minutos. Lunes a viernes 08:00-18:00, sábados 08:00-13:00, domingos y festivos sin atención. |
-| RN-02 | Un médico no puede tener dos citas `PROGRAMADA` en la misma franja. |
+| RN-01 | Las citas solo pueden programarse en franjas exactas de 30 minutos. Lunes a viernes de 08:00 a 18:00, sábados de 08:00 a 13:00, domingos y festivos sin atención. |
+| RN-02 | Un médico no puede tener dos citas `PROGRAMADA` en la misma franja horaria. |
 | RN-03 | Al agendar se valida que la fecha de nacimiento del paciente no sea futura. Si no existe, se asume edad 0. |
-| RN-04 | Un paciente no puede tener otra cita `PROGRAMADA` en la misma franja horaria, incluso con otro médico. |
-| RN-05 | Si una cita se cancela con menos de 2 horas de antelación, se registra penalización. Con 3 o más penalizaciones en los últimos 30 días, el paciente no puede agendar. |
-| RN-06 | Reprogramar implica validar nuevo horario, reservar nueva franja, cancelar la cita original, aplicar penalización si corresponde y crear una nueva cita. |
-
----
+| RN-04 | Un paciente no puede tener otra cita `PROGRAMADA` en la misma franja horaria. |
+| RN-05 | Si una cita se cancela con menos de 2 horas de antelación, se registra una penalización. Con 3 o más penalizaciones en los últimos 30 días, el paciente no puede agendar nuevas citas. |
+| RN-06 | Reprogramar una cita implica cancelar la cita anterior, aplicar penalización si corresponde y crear una nueva cita validando disponibilidad. |
 
 ## Arquitectura
+
+El proyecto está organizado siguiendo una arquitectura por capas con separación entre dominio, aplicación e infraestructura.
 
 ```text
 src/main/java/com/ceiba/medisalud
@@ -78,23 +69,19 @@ src/main/java/com/ceiba/medisalud
     └── seed
 ```
 
-### Capas
-
 | Capa | Responsabilidad |
 | --- | --- |
-| `domain` | Modelo, reglas puras, políticas, excepciones y puertos. No depende de Spring, JPA ni REST. |
-| `application` | Casos de uso transaccionales. Orquesta dominio, validaciones y puertos. |
-| `infrastructure` | Adaptadores REST, persistencia JPA, migraciones, filtros, configuración y observabilidad. |
+| `domain` | Modelos de dominio, servicios de dominio, políticas, excepciones y puertos. |
+| `application` | Casos de uso transaccionales y orquestación de reglas de negocio. |
+| `infrastructure` | Adaptadores REST, persistencia JPA, configuración, filtros, migraciones y datos iniciales. |
 
-La independencia del dominio se valida con `ArchitectureTest` usando ArchUnit.
+La separación entre dominio e infraestructura se valida mediante pruebas de arquitectura con ArchUnit.
 
----
+## Patrones y decisiones de diseño
 
-## Patrones de diseño aplicados y justificados
+### Arquitectura hexagonal / Ports and Adapters
 
-### 1. Hexagonal Architecture / Ports and Adapters
-
-Los casos de uso dependen de puertos del dominio:
+Los casos de uso dependen de puertos definidos en el dominio:
 
 - `DoctorRepositoryPort`
 - `PatientRepositoryPort`
@@ -102,164 +89,93 @@ Los casos de uso dependen de puertos del dominio:
 - `PenaltyRepositoryPort`
 - `SlotReservationPort`
 
-La infraestructura implementa esos puertos con JPA.
+La infraestructura implementa estos puertos mediante adaptadores JPA.
 
-**Justificación:** evita acoplar reglas de negocio a Spring Data, H2 o JPA. Permite cambiar el mecanismo de persistencia sin tocar la lógica central.
+### Repository Pattern
 
-### 2. Repository Pattern
+El acceso a datos se realiza a través de puertos de repositorio. Esto permite mantener los casos de uso independientes de Spring Data JPA.
 
-Cada agregado tiene un repositorio de dominio.
+### Strategy Pattern
 
-**Justificación:** centraliza el acceso a datos y evita consultas técnicas en los casos de uso.
-
-### 3. Strategy Pattern
-
-`WorkingHoursPolicy` define la estrategia de horarios disponibles.
+`WorkingHoursPolicy` define la estrategia para validar horarios laborales y generar franjas disponibles.
 
 Implementación actual:
 
 - `DefaultMedicalWorkingHoursPolicy`
 
-**Justificación:** permite cambiar horarios por sede, especialidad o agenda médica sin modificar el caso de uso de agendamiento.
+### Factory Pattern
 
-### 4. Factory Pattern
+`AppointmentFactory` centraliza la creación de citas y garantiza que una nueva cita inicie en estado `PROGRAMADA`.
 
-`AppointmentFactory` centraliza la creación de citas programadas.
+### Specification Pattern
 
-**Justificación:** garantiza que toda cita nueva nazca en estado `PROGRAMADA` y con construcción consistente.
+`AppointmentJpaSpecifications` permite construir consultas dinámicas para el listado de citas con filtros opcionales.
 
-### 5. Specification Pattern
+### Mapper Pattern
 
-`AppointmentJpaSpecifications` compone filtros dinámicos de búsqueda.
+Se separan los DTOs REST, los modelos de dominio y las entidades JPA para evitar acoplamiento entre API, negocio y persistencia.
 
-**Justificación:** evita crear múltiples métodos rígidos por combinación de filtros.
+### Reserva protegida de franjas
 
-### 6. Mapper Pattern
-
-Se separan DTOs REST, entidades JPA y modelos de dominio.
-
-**Justificación:** evita filtrar detalles de infraestructura hacia el dominio y permite evolucionar la API sin romper la persistencia.
-
-### 7. Guarded Slot Reservation Pattern
-
-`SlotReservationPort` reserva franjas activas usando tablas de lock:
+La reserva de franjas activas se apoya en tablas de bloqueo lógico:
 
 - `doctor_slot_locks`
 - `patient_slot_locks`
 
-Cada tabla tiene restricciones únicas.
-
-**Justificación:** en producción, una validación previa no basta ante requests concurrentes. Las restricciones únicas protegen el sistema frente a condiciones de carrera.
-
----
+Estas tablas tienen restricciones únicas para evitar duplicidad de reservas ante solicitudes concurrentes.
 
 ## Persistencia y migraciones
 
-Se usa H2 porque el enunciado permite base en memoria y para facilitar la revisión local. Sin embargo, el esquema no depende de `ddl-auto=update`; se maneja con Flyway:
+La base de datos configurada para ejecución local es **H2 en memoria**.
+
+El esquema se administra con Flyway:
 
 ```text
-db/migration/V1__create_schema.sql
-db/migration/V2__seed_reference_data.sql
+src/main/resources/db/migration/V1__create_schema.sql
+src/main/resources/db/migration/V2__seed_reference_data.sql
 ```
 
-La aplicación usa:
+Hibernate no crea ni actualiza el esquema automáticamente:
 
 ```yaml
-spring.jpa.hibernate.ddl-auto: validate
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
 ```
 
-Esto es más cercano a un flujo productivo: la base se versiona explícitamente y Hibernate solo valida que el modelo coincida con el esquema.
+Con esto, la estructura de base de datos queda controlada por migraciones versionadas.
 
----
+## Manejo de errores
 
-## Concurrencia
+Los errores se centralizan en `GlobalExceptionHandler` y se devuelven con una estructura uniforme:
 
-Para evitar doble reserva de citas bajo concurrencia:
-
-1. El caso de uso valida reglas de negocio y disponibilidad.
-2. Luego intenta reservar la franja en tablas de lock.
-3. Las restricciones únicas de base de datos actúan como última línea de defensa.
-4. Si hay colisión, se devuelve `409 Conflict`.
-
-Esto cubre el escenario donde dos usuarios intentan reservar la misma franja al mismo tiempo.
-
----
-
-## Ejecución local
-
-Requisitos:
-
-- Java 21.
-- Gradle 8.x.
-
-Ejecutar aplicación:
-
-```bash
-gradle bootRun
+```json
+{
+  "timestamp": "2026-07-05T00:00:00",
+  "status": 409,
+  "error": "Conflict",
+  "message": "El médico ya tiene una cita programada en esa franja horaria",
+  "path": "/api/appointments",
+  "correlationId": "...",
+  "details": []
+}
 ```
 
-Construir JAR:
+Códigos HTTP utilizados:
 
-```bash
-gradle clean build
-```
-
-Ejecutar JAR:
-
-```bash
-java -jar build/libs/medisalud-appointments-1.0.0.jar
-```
-
-Ejecutar tests:
-
-```bash
-gradle test
-```
-
-Ejecutar verificación completa:
-
-```bash
-gradle clean check
-```
-
-La API queda disponible en:
-
-```text
-http://localhost:8080
-```
-
----
-
-## H2 Console
-
-```text
-URL: http://localhost:8080/h2-console
-JDBC URL: jdbc:h2:mem:medisalud;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
-User: sa
-Password:
-```
-
----
-
-## Docker
-
-Construir y ejecutar:
-
-```bash
-docker compose up --build
-```
-
-Validar health/readiness:
-
-```bash
-curl http://localhost:8080/actuator/health/readiness
-```
-
----
+| Código | Uso |
+| --- | --- |
+| `201 Created` | Creación exitosa de recursos. |
+| `200 OK` | Consultas, cancelaciones, reprogramaciones y marcación como atendida. |
+| `400 Bad Request` | Datos inválidos o incumplimiento de reglas de formato. |
+| `404 Not Found` | Médico, paciente o cita inexistente. |
+| `409 Conflict` | Conflictos de negocio, duplicidad de franja o penalizaciones. |
+| `500 Internal Server Error` | Error inesperado. |
 
 ## Observabilidad
 
-Endpoints Actuator:
+Se incluye Spring Boot Actuator para consultar el estado de la aplicación:
 
 ```http
 GET /actuator/health
@@ -269,167 +185,181 @@ GET /actuator/metrics
 GET /actuator/info
 ```
 
-Cada request propaga o genera un header:
+También se maneja el header `X-Correlation-Id` para trazabilidad de requests y errores.
 
-```http
-X-Correlation-Id: valor-opcional
+## Requisitos locales
+
+- Java 21
+- Git
+- No es necesario instalar Gradle si se usa el wrapper incluido
+
+Verificar versión de Java:
+
+```bash
+java -version
 ```
 
-El correlation ID se retorna en la respuesta y aparece en logs y errores.
+## Ejecución local
 
----
+### Windows PowerShell
 
-## Códigos HTTP
-
-| Código | Uso |
-| --- | --- |
-| 200 | Consulta o actualización exitosa. |
-| 201 | Recurso creado. |
-| 400 | Request inválido, formato incorrecto o regla de calendario inválida. |
-| 404 | Recurso no encontrado. |
-| 409 | Conflicto de negocio, duplicidad, penalización o colisión concurrente. |
-| 500 | Error inesperado. |
-
-Formato de error:
-
-```json
-{
-  "timestamp": "2026-07-04T10:00:00",
-  "status": 409,
-  "error": "Conflict",
-  "message": "El médico ya tiene una cita programada en esa franja horaria",
-  "path": "/api/appointments",
-  "correlationId": "demo-create-appointment",
-  "details": []
-}
+```powershell
+.\gradlew.bat bootRun
 ```
 
----
+### Linux / macOS
 
-## Endpoints
+```bash
+./gradlew bootRun
+```
 
-### Crear médico
+La aplicación queda disponible en:
+
+```text
+http://localhost:8080
+```
+
+Consola H2:
+
+```text
+http://localhost:8080/h2-console
+```
+
+Datos de conexión H2:
+
+```text
+JDBC URL: jdbc:h2:mem:medisalud
+User: sa
+Password: password
+```
+
+## Ejecución de pruebas
+
+### Windows PowerShell
+
+```powershell
+.\gradlew.bat clean test
+.\gradlew.bat clean check
+```
+
+### Linux / macOS
+
+```bash
+./gradlew clean test
+./gradlew clean check
+```
+
+El comando `check` ejecuta:
+
+- Tests unitarios
+- Tests de integración
+- Pruebas de arquitectura con ArchUnit
+- Generación de reporte JaCoCo
+
+Reportes generados:
+
+```text
+build/reports/tests/test/index.html
+build/reports/jacoco/test/html/index.html
+```
+
+## Ejecución con Docker
+
+```bash
+docker compose up --build
+```
+
+La API queda disponible en:
+
+```text
+http://localhost:8080
+```
+
+## Endpoints principales
+
+### Médicos
 
 ```http
 POST /api/doctors
-Content-Type: application/json
+GET  /api/doctors
+GET  /api/doctors/{id}
 ```
+
+Crear médico:
 
 ```json
 {
   "fullName": "Dra. Laura Pérez",
-  "specialty": "Neurología",
+  "specialty": "Cardiología",
   "phone": "555-2001",
   "email": "laura.perez@medisalud.com"
 }
 ```
 
-### Listar médicos
-
-```http
-GET /api/doctors
-```
-
-### Consultar médico por ID
-
-```http
-GET /api/doctors/{id}
-```
-
-### Crear paciente
+### Pacientes
 
 ```http
 POST /api/patients
-Content-Type: application/json
+GET  /api/patients
+GET  /api/patients/{id}
 ```
+
+Crear paciente:
 
 ```json
 {
-  "fullName": "Omar López",
+  "fullName": "Juan Pérez",
   "documentNumber": "123456789",
-  "phone": "3001234567",
-  "email": "omar@example.com",
-  "birthDate": "1997-05-10"
+  "phone": "555-3001",
+  "email": "juan.perez@email.com",
+  "birthDate": "1995-05-20"
 }
 ```
 
-### Listar pacientes
+### Citas
 
 ```http
-GET /api/patients
+POST  /api/appointments
+GET   /api/appointments
+GET   /api/appointments/{id}
+PATCH /api/appointments/{id}/cancel
+PATCH /api/appointments/{id}/reschedule
+PATCH /api/appointments/{id}/attend
 ```
 
-### Consultar paciente por ID
-
-```http
-GET /api/patients/{id}
-```
-
-### Crear cita
-
-```http
-POST /api/appointments
-Content-Type: application/json
-```
+Crear cita:
 
 ```json
 {
   "patientId": 1,
   "doctorId": 1,
-  "appointmentDateTime": "2026-08-03T08:00:00"
+  "appointmentDateTime": "2026-07-06T08:00:00"
 }
 ```
 
-### Consultar cita por ID
-
-```http
-GET /api/appointments/{id}
-```
-
-### Listar citas con filtros
-
-```http
-GET /api/appointments?doctorId=1&patientId=1&status=PROGRAMADA&fechaInicio=2026-08-01T00:00:00&fechaFin=2026-08-31T23:59:59
-```
-
-Todos los filtros son opcionales.
-
-### Consultar franjas disponibles
-
-```http
-GET /api/doctors/1/available-slots?fechaInicio=2026-08-03&fechaFin=2026-08-03
-```
-
-### Cancelar cita
-
-```http
-PATCH /api/appointments/{id}/cancel
-```
-
-### Reprogramar cita
-
-```http
-PATCH /api/appointments/{id}/reschedule
-Content-Type: application/json
-```
+Reprogramar cita:
 
 ```json
 {
-  "newDateTime": "2026-08-03T09:00:00"
+  "newDateTime": "2026-07-06T08:30:00"
 }
 ```
 
-### Marcar como atendida
+Filtros de listado:
 
 ```http
-PATCH /api/appointments/{id}/attend
+GET /api/appointments?doctorId=1&patientId=1&status=PROGRAMADA&fechaInicio=2026-07-06T00:00:00&fechaFin=2026-07-10T23:59:59
 ```
 
----
+### Franjas disponibles
+
+```http
+GET /api/doctors/{doctorId}/available-slots?fechaInicio=2026-07-06&fechaFin=2026-07-10
+```
 
 ## Datos iniciales
 
-Al iniciar se cargan por migración los médicos del enunciado:
+Se cargan médicos de referencia mediante migración Flyway:
 
 | ID | Nombre | Especialidad | Teléfono | Email |
 | --- | --- | --- | --- | --- |
@@ -437,43 +367,33 @@ Al iniciar se cargan por migración los médicos del enunciado:
 | 2 | Dr. Carlos Ruiz | Pediatría | 555-1002 | carlos.ruiz@medisalud.com |
 | 3 | Dra. Ana López | Dermatología | 555-1003 | ana.lopez@medisalud.com |
 
----
-
-## Tests incluidos
-
-- Tests unitarios de reglas de agendamiento.
-- Tests de duplicidad médico/franja.
-- Tests de conflicto paciente/franja.
-- Tests de cancelación tardía y penalizaciones.
-- Tests de bloqueo por penalizaciones.
-- Tests de disponibilidad de franjas.
-- Tests de reprogramación.
-- Tests de arquitectura con ArchUnit.
-- Reporte JaCoCo.
-
-Reporte de cobertura:
-
-```text
-build/reports/jacoco/test/html/index.html
-```
-
----
-
 ## Documentación adicional
 
-- `docs/ARCHITECTURE.md`
-- `docs/PRODUCTION_READINESS.md`
-- `docs/API.http`
-
----
-
-## Entrega sugerida
-
-1. Subir el proyecto a GitHub público.
-2. Verificar localmente:
-
-```bash
-gradle clean check
+```text
+docs/API.http
+docs/ARCHITECTURE.md
+docs/PRODUCTION_READINESS.md
 ```
 
-3. Adjuntar el enlace del repositorio en el correo de respuesta.
+`docs/API.http` contiene ejemplos de requests para ejecutar desde IntelliJ IDEA Ultimate, VS Code REST Client o herramientas compatibles.
+
+## Comandos útiles
+
+```bash
+# Ejecutar tests
+./gradlew clean test
+
+# Ejecutar verificación completa
+./gradlew clean check
+
+# Levantar aplicación
+./gradlew bootRun
+
+# Construir jar
+./gradlew clean bootJar
+
+# Ejecutar jar
+java -jar build/libs/medisalud-appointments-1.0.0.jar
+```
+
+En Windows reemplazar `./gradlew` por `.\gradlew.bat`.

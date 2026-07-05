@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Represents the REST request used to create an appointment.
+ */
 public record CreateAppointmentRequest(
         @NotNull(message = "patientId es obligatorio")
         Long patientId,

@@ -15,6 +15,9 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+/**
+ * Represents the JPA persistence entity for appointment records.
+ */
 @Entity
 @Table(name = "appointments")
 public class AppointmentJpaEntity {
@@ -40,9 +43,15 @@ public class AppointmentJpaEntity {
     @Column(name = "cancellation_date_time")
     private LocalDateTime cancellationDateTime;
 
+    /**
+     * Creates a new AppointmentJpaEntity instance.
+     */
     protected AppointmentJpaEntity() {
     }
 
+    /**
+     * Creates a new AppointmentJpaEntity instance.
+     */
     public AppointmentJpaEntity(
             Long id,
             Long patientId,
@@ -59,26 +68,44 @@ public class AppointmentJpaEntity {
         this.cancellationDateTime = cancellationDateTime;
     }
 
+    /**
+     * Returns the id value.
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Returns the patientId value.
+     */
     public Long getPatientId() {
         return patientId;
     }
 
+    /**
+     * Returns the doctorId value.
+     */
     public Long getDoctorId() {
         return doctorId;
     }
 
+    /**
+     * Returns the appointmentDateTime value.
+     */
     public LocalDateTime getAppointmentDateTime() {
         return appointmentDateTime;
     }
 
+    /**
+     * Returns the status value.
+     */
     public AppointmentStatus getStatus() {
         return status;
     }
 
+    /**
+     * Returns the cancellationDateTime value.
+     */
     public LocalDateTime getCancellationDateTime() {
         return cancellationDateTime;
     }

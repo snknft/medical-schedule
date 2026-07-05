@@ -6,9 +6,18 @@ import java.util.List;
 
 import com.ceiba.medisalud.domain.model.AvailableSlot;
 
+/**
+ * Defines the contract for validating appointment start times and generating available slots.
+ */
 public interface WorkingHoursPolicy {
 
+    /**
+     * Determines whether the provided date-time is a valid appointment start.
+     */
     boolean isValidAppointmentStart(LocalDateTime dateTime);
 
+    /**
+     * Generates valid appointment slots for the provided date.
+     */
     List<AvailableSlot> generateSlots(LocalDate date);
 }

@@ -12,12 +12,18 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Propagates or creates a correlation identifier for every HTTP request.
+ */
 @Component
 public class CorrelationIdFilter extends OncePerRequestFilter {
 
     public static final String HEADER_NAME = "X-Correlation-Id";
     public static final String MDC_KEY = "correlationId";
 
+    /**
+     * Applies correlation id handling to the current HTTP request.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -31,6 +37,9 @@ public class CorrelationIdFilter extends OncePerRequestFilter {
         }
     }
 
+    /**
+     * Resolves the incoming correlation id or creates a new one.
+     */
     private String resolveCorrelationId(HttpServletRequest request) {
         String header = request.getHeader(HEADER_NAME);
         if (header == null || header.isBlank()) {

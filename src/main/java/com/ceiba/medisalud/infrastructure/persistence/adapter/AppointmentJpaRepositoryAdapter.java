@@ -17,25 +17,40 @@ import com.ceiba.medisalud.infrastructure.persistence.mapper.AppointmentJpaMappe
 import com.ceiba.medisalud.infrastructure.persistence.specification.AppointmentJpaSpecifications;
 import com.ceiba.medisalud.infrastructure.persistence.springdata.SpringDataAppointmentJpaRepository;
 
+/**
+ * Implements a domain port using Spring Data JPA for appointment persistence.
+ */
 @Repository
 public class AppointmentJpaRepositoryAdapter implements AppointmentRepositoryPort {
 
     private final SpringDataAppointmentJpaRepository repository;
 
+    /**
+     * Creates a new AppointmentJpaRepositoryAdapter instance.
+     */
     public AppointmentJpaRepositoryAdapter(SpringDataAppointmentJpaRepository repository) {
         this.repository = repository;
     }
 
+    /**
+     * Persists the provided domain object and returns the saved instance.
+     */
     @Override
     public Appointment save(Appointment appointment) {
         return AppointmentJpaMapper.toDomain(repository.save(AppointmentJpaMapper.toEntity(appointment)));
     }
 
+    /**
+     * Finds a resource by its identifier.
+     */
     @Override
     public Optional<Appointment> findById(Long id) {
         return repository.findById(id).map(AppointmentJpaMapper::toDomain);
     }
 
+    /**
+     * Determines whether a doctor already has an active appointment in the provided slot.
+     */
     @Override
     public boolean existsScheduledForDoctorAt(Long doctorId, LocalDateTime dateTime, Long excludedAppointmentId) {
         return repository.findAll((root, query, builder) -> builder.and(
@@ -47,6 +62,9 @@ public class AppointmentJpaRepositoryAdapter implements AppointmentRepositoryPor
                 .anyMatch(entity -> !Objects.equals(entity.getId(), excludedAppointmentId));
     }
 
+    /**
+     * Determines whether a patient already has an active appointment in the provided slot.
+     */
     @Override
     public boolean existsScheduledForPatientAt(Long patientId, LocalDateTime dateTime, Long excludedAppointmentId) {
         return repository.findAll((root, query, builder) -> builder.and(
@@ -58,6 +76,9 @@ public class AppointmentJpaRepositoryAdapter implements AppointmentRepositoryPor
                 .anyMatch(entity -> !Objects.equals(entity.getId(), excludedAppointmentId));
     }
 
+    /**
+     * Finds scheduled appointments for a doctor within the provided date-time range.
+     */
     @Override
     public List<Appointment> findScheduledByDoctorBetween(Long doctorId, LocalDateTime from, LocalDateTime to) {
         return repository.findByDoctorIdAndStatusAndAppointmentDateTimeBetween(doctorId, AppointmentStatus.PROGRAMADA, from, to)
@@ -66,6 +87,9 @@ public class AppointmentJpaRepositoryAdapter implements AppointmentRepositoryPor
                 .toList();
     }
 
+    /**
+     * Searches appointments using the provided optional filters.
+     */
     @Override
     public List<Appointment> search(AppointmentSearchCriteria criteria) {
         return repository.findAll(

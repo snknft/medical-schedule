@@ -30,6 +30,9 @@ import com.ceiba.medisalud.domain.repository.SlotReservationPort;
 import com.ceiba.medisalud.domain.service.AppointmentFactory;
 import com.ceiba.medisalud.domain.service.AppointmentRulesService;
 
+/**
+ * Coordinates appointment scheduling, cancellation, rescheduling, attendance, and availability use cases.
+ */
 @Service
 @Transactional
 public class AppointmentService {
@@ -47,6 +50,9 @@ public class AppointmentService {
     private final WorkingHoursPolicy workingHoursPolicy;
     private final Clock clock;
 
+    /**
+     * Creates a new AppointmentService instance.
+     */
     public AppointmentService(
             DoctorRepositoryPort doctorRepository,
             PatientRepositoryPort patientRepository,
@@ -69,6 +75,9 @@ public class AppointmentService {
         this.clock = clock;
     }
 
+    /**
+     * Schedules a new appointment after applying business validations and slot reservations.
+     */
     public Appointment schedule(ScheduleAppointmentCommand command) {
         Patient patient = getPatientOrFail(command.patientId());
         ensureDoctorExists(command.doctorId());
@@ -88,6 +97,9 @@ public class AppointmentService {
         return appointmentRepository.save(appointment);
     }
 
+    /**
+     * Cancels an appointment and applies a late cancellation penalty when required.
+     */
     public Appointment cancel(Long appointmentId) {
         Appointment appointment = getAppointmentOrFail(appointmentId);
         LocalDateTime now = LocalDateTime.now(clock);
@@ -109,6 +121,9 @@ public class AppointmentService {
         return saved;
     }
 
+    /**
+     * Reprograms an existing appointment by cancelling it and creating a new scheduled appointment.
+     */
     public Appointment reschedule(RescheduleAppointmentCommand command) {
         Appointment original = getAppointmentOrFail(command.appointmentId());
         Patient patient = getPatientOrFail(original.getPatientId());
@@ -147,6 +162,9 @@ public class AppointmentService {
         return appointmentRepository.save(newAppointment);
     }
 
+    /**
+     * Marks an appointment as attended and releases its active slot reservation.
+     */
     public Appointment attend(Long appointmentId) {
         Appointment appointment = getAppointmentOrFail(appointmentId);
         appointment.attend();
@@ -155,16 +173,25 @@ public class AppointmentService {
         return saved;
     }
 
+    /**
+     * Returns the byId value.
+     */
     @Transactional(readOnly = true)
     public Appointment getById(Long appointmentId) {
         return getAppointmentOrFail(appointmentId);
     }
 
+    /**
+     * Searches appointments using the provided optional filters.
+     */
     @Transactional(readOnly = true)
     public List<Appointment> search(AppointmentSearchCriteria criteria) {
         return appointmentRepository.search(criteria);
     }
 
+    /**
+     * Calculates available appointment slots for a doctor within a date range.
+     */
     @Transactional(readOnly = true)
     public List<AvailableSlot> findAvailableSlots(AvailableSlotsQuery query) {
         ensureDoctorExists(query.doctorId());
@@ -191,6 +218,9 @@ public class AppointmentService {
     }
 
 
+    /**
+     * Ensures that a reprogramming operation does not immediately block the patient.
+     */
     private void ensureReprogrammingDoesNotCreatePenaltyBlock(Appointment appointment, LocalDateTime now) {
         if (!appointmentRulesService.isLateCancellation(appointment.getAppointmentDateTime(), now)) {
             return;
@@ -202,6 +232,9 @@ public class AppointmentService {
         }
     }
 
+    /**
+     * Validates that neither the doctor nor the patient has an active appointment in the same slot.
+     */
     private void validateNoConflicts(Long doctorId, Long patientId, LocalDateTime dateTime, Long excludedAppointmentId) {
         if (appointmentRepository.existsScheduledForDoctorAt(doctorId, dateTime, excludedAppointmentId)) {
             throw new ConflictException("El médico ya tiene una cita programada en esa franja horaria");
@@ -211,6 +244,9 @@ public class AppointmentService {
         }
     }
 
+    /**
+     * Ensures that the patient is not blocked by recent penalties.
+     */
     private void ensurePatientCanSchedule(Long patientId, LocalDateTime now) {
         LocalDateTime since = now.minusDays(PENALTY_WINDOW_DAYS);
         long penalties = penaltyRepository.countByPatientIdSince(patientId, since);
@@ -219,17 +255,26 @@ public class AppointmentService {
         }
     }
 
+    /**
+     * Ensures that a doctor exists before continuing the use case.
+     */
     private void ensureDoctorExists(Long doctorId) {
         if (!doctorRepository.existsById(doctorId)) {
             throw new NotFoundException("Médico no encontrado con id " + doctorId);
         }
     }
 
+    /**
+     * Returns the patientOrFail value.
+     */
     private Patient getPatientOrFail(Long patientId) {
         return patientRepository.findById(patientId)
                 .orElseThrow(() -> new NotFoundException("Paciente no encontrado con id " + patientId));
     }
 
+    /**
+     * Returns the appointmentOrFail value.
+     */
     private Appointment getAppointmentOrFail(Long appointmentId) {
         return appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new NotFoundException("Cita no encontrada con id " + appointmentId));

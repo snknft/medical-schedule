@@ -25,6 +25,9 @@ import com.ceiba.medisalud.infrastructure.rest.mapper.ApiResponseMapper;
 
 import jakarta.validation.Valid;
 
+/**
+ * Exposes REST endpoints for doctor operations.
+ */
 @RestController
 @RequestMapping("/api/doctors")
 public class DoctorController {
@@ -32,11 +35,17 @@ public class DoctorController {
     private final DoctorService doctorService;
     private final AppointmentService appointmentService;
 
+    /**
+     * Creates a new DoctorController instance.
+     */
     public DoctorController(DoctorService doctorService, AppointmentService appointmentService) {
         this.doctorService = doctorService;
         this.appointmentService = appointmentService;
     }
 
+    /**
+     * Handles the REST request that creates a new resource.
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DoctorResponse create(@Valid @RequestBody CreateDoctorRequest request) {
@@ -48,16 +57,25 @@ public class DoctorController {
         )));
     }
 
+    /**
+     * Returns all persisted resources of the current type.
+     */
     @GetMapping
     public List<DoctorResponse> findAll() {
         return doctorService.findAll().stream().map(ApiResponseMapper::toResponse).toList();
     }
 
+    /**
+     * Handles the REST request that retrieves a doctor by identifier.
+     */
     @GetMapping("/{id}")
     public DoctorResponse getById(@PathVariable Long id) {
         return ApiResponseMapper.toResponse(doctorService.getById(id));
     }
 
+    /**
+     * Handles the REST request that returns available slots for a doctor.
+     */
     @GetMapping("/{doctorId}/available-slots")
     public List<AvailableSlotResponse> availableSlots(
             @PathVariable Long doctorId,

@@ -27,16 +27,25 @@ import com.ceiba.medisalud.infrastructure.rest.mapper.ApiResponseMapper;
 
 import jakarta.validation.Valid;
 
+/**
+ * Exposes REST endpoints for appointment operations.
+ */
 @RestController
 @RequestMapping("/api/appointments")
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
 
+    /**
+     * Creates a new AppointmentController instance.
+     */
     public AppointmentController(AppointmentService appointmentService) {
         this.appointmentService = appointmentService;
     }
 
+    /**
+     * Handles the REST request that creates a new resource.
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AppointmentResponse create(@Valid @RequestBody CreateAppointmentRequest request) {
@@ -47,11 +56,17 @@ public class AppointmentController {
         )));
     }
 
+    /**
+     * Handles the REST request that retrieves an appointment by identifier.
+     */
     @GetMapping("/{id}")
     public AppointmentResponse getById(@PathVariable Long id) {
         return ApiResponseMapper.toResponse(appointmentService.getById(id));
     }
 
+    /**
+     * Searches appointments using the provided optional filters.
+     */
     @GetMapping
     public List<AppointmentResponse> search(
             @RequestParam(required = false) Long doctorId,
@@ -66,11 +81,17 @@ public class AppointmentController {
                 .toList();
     }
 
+    /**
+     * Handles the REST request that cancels an appointment.
+     */
     @PatchMapping("/{id}/cancel")
     public AppointmentResponse cancel(@PathVariable Long id) {
         return ApiResponseMapper.toResponse(appointmentService.cancel(id));
     }
 
+    /**
+     * Handles the REST request that reschedules an appointment.
+     */
     @PatchMapping("/{id}/reschedule")
     public AppointmentResponse reschedule(
             @PathVariable Long id,
@@ -79,6 +100,9 @@ public class AppointmentController {
         return ApiResponseMapper.toResponse(appointmentService.reschedule(new RescheduleAppointmentCommand(id, request.newDateTime())));
     }
 
+    /**
+     * Handles the REST request that marks an appointment as attended.
+     */
     @PatchMapping("/{id}/attend")
     public AppointmentResponse attend(@PathVariable Long id) {
         return ApiResponseMapper.toResponse(appointmentService.attend(id));

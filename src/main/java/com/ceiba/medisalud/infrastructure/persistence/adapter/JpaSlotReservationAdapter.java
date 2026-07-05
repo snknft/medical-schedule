@@ -12,12 +12,18 @@ import com.ceiba.medisalud.infrastructure.persistence.entity.PatientSlotLockJpaE
 import com.ceiba.medisalud.infrastructure.persistence.springdata.SpringDataDoctorSlotLockJpaRepository;
 import com.ceiba.medisalud.infrastructure.persistence.springdata.SpringDataPatientSlotLockJpaRepository;
 
+/**
+ * Defines the JpaSlotReservationAdapter component of the MediSalud appointment system.
+ */
 @Repository
 public class JpaSlotReservationAdapter implements SlotReservationPort {
 
     private final SpringDataDoctorSlotLockJpaRepository doctorSlotLockRepository;
     private final SpringDataPatientSlotLockJpaRepository patientSlotLockRepository;
 
+    /**
+     * Creates a new JpaSlotReservationAdapter instance.
+     */
     public JpaSlotReservationAdapter(
             SpringDataDoctorSlotLockJpaRepository doctorSlotLockRepository,
             SpringDataPatientSlotLockJpaRepository patientSlotLockRepository
@@ -26,18 +32,27 @@ public class JpaSlotReservationAdapter implements SlotReservationPort {
         this.patientSlotLockRepository = patientSlotLockRepository;
     }
 
+    /**
+     * Reserves an appointment slot for the doctor and patient.
+     */
     @Override
     public void reserve(Long doctorId, Long patientId, LocalDateTime appointmentDateTime) {
         reserveDoctorSlot(doctorId, appointmentDateTime);
         reservePatientSlot(patientId, appointmentDateTime);
     }
 
+    /**
+     * Releases the appointment slot reservation for the doctor and patient.
+     */
     @Override
     public void release(Long doctorId, Long patientId, LocalDateTime appointmentDateTime) {
         doctorSlotLockRepository.deleteByDoctorIdAndAppointmentDateTime(doctorId, appointmentDateTime);
         patientSlotLockRepository.deleteByPatientIdAndAppointmentDateTime(patientId, appointmentDateTime);
     }
 
+    /**
+     * Persists the guarded slot reservation for a doctor.
+     */
     private void reserveDoctorSlot(Long doctorId, LocalDateTime appointmentDateTime) {
         try {
             doctorSlotLockRepository.saveAndFlush(new DoctorSlotLockJpaEntity(doctorId, appointmentDateTime));
@@ -46,6 +61,9 @@ public class JpaSlotReservationAdapter implements SlotReservationPort {
         }
     }
 
+    /**
+     * Persists the guarded slot reservation for a patient.
+     */
     private void reservePatientSlot(Long patientId, LocalDateTime appointmentDateTime) {
         try {
             patientSlotLockRepository.saveAndFlush(new PatientSlotLockJpaEntity(patientId, appointmentDateTime));

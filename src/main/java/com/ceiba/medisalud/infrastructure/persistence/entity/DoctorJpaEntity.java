@@ -7,6 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * Represents the JPA persistence entity for doctor records.
+ */
 @Entity
 @Table(name = "doctors")
 public class DoctorJpaEntity {
@@ -27,9 +30,15 @@ public class DoctorJpaEntity {
     @Column(length = 120)
     private String email;
 
+    /**
+     * Creates a new DoctorJpaEntity instance.
+     */
     protected DoctorJpaEntity() {
     }
 
+    /**
+     * Creates a new DoctorJpaEntity instance.
+     */
     public DoctorJpaEntity(Long id, String fullName, String specialty, String phone, String email) {
         this.id = id;
         this.fullName = fullName;
@@ -38,22 +47,37 @@ public class DoctorJpaEntity {
         this.email = email;
     }
 
+    /**
+     * Returns the id value.
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Returns the fullName value.
+     */
     public String getFullName() {
         return fullName;
     }
 
+    /**
+     * Returns the specialty value.
+     */
     public String getSpecialty() {
         return specialty;
     }
 
+    /**
+     * Returns the phone value.
+     */
     public String getPhone() {
         return phone;
     }
 
+    /**
+     * Returns the email value.
+     */
     public String getEmail() {
         return email;
     }

@@ -15,6 +15,9 @@ import jakarta.persistence.UniqueConstraint;
         name = "doctor_slot_locks",
         uniqueConstraints = @UniqueConstraint(name = "uk_doctor_slot_lock", columnNames = {"doctor_id", "appointment_date_time"})
 )
+/**
+ * Represents the JPA persistence entity for doctorslotlock records.
+ */
 public class DoctorSlotLockJpaEntity {
 
     @Id
@@ -27,22 +30,37 @@ public class DoctorSlotLockJpaEntity {
     @Column(name = "appointment_date_time", nullable = false)
     private LocalDateTime appointmentDateTime;
 
+    /**
+     * Creates a new DoctorSlotLockJpaEntity instance.
+     */
     protected DoctorSlotLockJpaEntity() {
     }
 
+    /**
+     * Creates a new DoctorSlotLockJpaEntity instance.
+     */
     public DoctorSlotLockJpaEntity(Long doctorId, LocalDateTime appointmentDateTime) {
         this.doctorId = doctorId;
         this.appointmentDateTime = appointmentDateTime;
     }
 
+    /**
+     * Returns the id value.
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Returns the doctorId value.
+     */
     public Long getDoctorId() {
         return doctorId;
     }
 
+    /**
+     * Returns the appointmentDateTime value.
+     */
     public LocalDateTime getAppointmentDateTime() {
         return appointmentDateTime;
     }
