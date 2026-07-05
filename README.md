@@ -230,7 +230,7 @@ Datos de conexión H2:
 ```text
 JDBC URL: jdbc:h2:mem:medisalud
 User: sa
-Password: password
+Password:
 ```
 
 ## Ejecución de pruebas
@@ -252,7 +252,8 @@ Password: password
 El comando `check` ejecuta:
 
 - Tests unitarios
-- Tests de integración
+- Tests de integración REST para médicos, pacientes, citas, franjas disponibles y Actuator
+- Prueba end-to-end del flujo de agendamiento
 - Pruebas de arquitectura con ArchUnit
 - Generación de reporte JaCoCo
 
@@ -265,6 +266,8 @@ build/reports/jacoco/test/html/index.html
 
 ## Ejecución con Docker
 
+El proyecto incluye `Dockerfile` y `docker-compose.yml` para construir y ejecutar la API en contenedor.
+
 ```bash
 docker compose up --build
 ```
@@ -274,6 +277,63 @@ La API queda disponible en:
 ```text
 http://localhost:8080
 ```
+
+Guía completa para Windows, Linux, validaciones y errores frecuentes:
+
+```text
+docs/DOCKER.md
+```
+
+
+## Colección Postman
+
+El repositorio incluye una colección para probar la API desde Postman:
+
+```text
+docs/postman/medical-schedule.postman_collection.json
+```
+
+### Importar la colección
+
+1. Abrir Postman.
+2. Seleccionar **Import**.
+3. Elegir **Files**.
+4. Seleccionar el archivo `docs/postman/medical-schedule.postman_collection.json`.
+5. Confirmar la importación.
+
+La colección usa la variable:
+
+```text
+baseUrl = http://localhost:8080
+```
+
+Si la aplicación se ejecuta en otro puerto, actualizar la variable `baseUrl` en Postman.
+
+### Probar la API con Postman
+
+Antes de ejecutar las solicitudes, levantar la aplicación:
+
+```bash
+./gradlew bootRun
+```
+
+En Windows:
+
+```powershell
+.\gradlew.bat bootRun
+```
+
+Orden sugerido de prueba:
+
+1. `Actuator / Health`
+2. `Pacientes / Crear paciente`
+3. `Citas / Crear cita`
+4. `Citas / Consultar cita por ID`
+5. `Franjas disponibles / Consultar franjas disponibles`
+6. `Citas / Crear cita duplicada - conflicto`
+7. `Citas / Crear cita fuera de horario - bad request`
+
+La colección también incluye una carpeta llamada **Flujo sugerido de prueba**, que permite ejecutar un recorrido básico de la API usando variables de colección para reutilizar IDs creados durante la prueba.
 
 ## Endpoints principales
 
@@ -369,13 +429,14 @@ Se cargan médicos de referencia mediante migración Flyway:
 
 ## Documentación adicional
 
-```text
-docs/API.http
-docs/ARCHITECTURE.md
-docs/PRODUCTION_READINESS.md
-```
-
-`docs/API.http` contiene ejemplos de requests para ejecutar desde IntelliJ IDEA Ultimate, VS Code REST Client o herramientas compatibles.
+| Documento | Descripción |
+| --- | --- |
+| `docs/API.http` | Ejemplos de requests ejecutables desde IntelliJ IDEA Ultimate, VS Code REST Client o herramientas compatibles. |
+| `README_POSTMAN_SECTION.md` | Guía breve para importar la colección en Postman y ejecutar un flujo básico de prueba. |
+| `docs/postman/medical-schedule.postman_collection.json` | Colección Postman importable con solicitudes para médicos, pacientes, citas, franjas disponibles, Actuator y flujo end-to-end. |
+| `docs/DOCKER.md` | Guía de ejecución con Docker en Windows y Linux, incluyendo validaciones y solución de errores frecuentes. |
+| `docs/ARCHITECTURE.md` | Descripción de arquitectura, capas, responsabilidades y decisiones de diseño. |
+| `docs/PRODUCTION_READINESS.md` | Consideraciones de preparación productiva, observabilidad, resiliencia y operación. |
 
 ## Comandos útiles
 
