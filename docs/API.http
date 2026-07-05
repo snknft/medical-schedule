@@ -1,0 +1,47 @@
+### Crear paciente
+POST http://localhost:8080/api/patients
+Content-Type: application/json
+X-Correlation-Id: demo-create-patient
+
+{
+  "fullName": "Omar López",
+  "documentNumber": "123456789",
+  "phone": "3001234567",
+  "email": "omar@example.com",
+  "birthDate": "1997-05-10"
+}
+
+### Crear cita
+POST http://localhost:8080/api/appointments
+Content-Type: application/json
+X-Correlation-Id: demo-create-appointment
+
+{
+  "patientId": 1,
+  "doctorId": 1,
+  "appointmentDateTime": "2026-08-03T08:00:00"
+}
+
+### Consultar disponibilidad
+GET http://localhost:8080/api/doctors/1/available-slots?fechaInicio=2026-08-03&fechaFin=2026-08-03
+X-Correlation-Id: demo-available-slots
+
+### Listar citas
+GET http://localhost:8080/api/appointments?doctorId=1&status=PROGRAMADA
+X-Correlation-Id: demo-search-appointments
+
+### Cancelar cita
+PATCH http://localhost:8080/api/appointments/1/cancel
+X-Correlation-Id: demo-cancel-appointment
+
+### Reprogramar cita
+PATCH http://localhost:8080/api/appointments/1/reschedule
+Content-Type: application/json
+X-Correlation-Id: demo-reschedule-appointment
+
+{
+  "newDateTime": "2026-08-03T09:00:00"
+}
+
+### Readiness
+GET http://localhost:8080/actuator/health/readiness

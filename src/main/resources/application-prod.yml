@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:h2:file:/data/medisalud;MODE=PostgreSQL;DATABASE_TO_UPPER=false}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:}
+    driver-class-name: ${DB_DRIVER:org.h2.Driver}
+  h2:
+    console:
+      enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+server:
+  error:
+    include-stacktrace: never
+    include-message: never
+
+management:
+  endpoint:
+    health:
+      show-details: never
