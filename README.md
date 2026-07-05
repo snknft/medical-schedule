@@ -1,5 +1,15 @@
 # MediSalud Appointment API
 
+# MediSalud Appointment API
+
+[![CI](https://github.com/snknft/medical-schedule/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/snknft/medical-schedule/actions/workflows/ci.yml)
+![Java](https://img.shields.io/badge/Java-21-blue)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.x-brightgreen)
+![Gradle](https://img.shields.io/badge/Build-Gradle-blue)
+![Coverage](https://img.shields.io/badge/JaCoCo-70%25%2B-success)
+![Architecture](https://img.shields.io/badge/Architecture-Hexagonal-informational)
+![Database](https://img.shields.io/badge/Database-H2-orange)
+
 API REST para el agendamiento de citas médicas de **MediSalud**.
 
 El proyecto permite registrar médicos y pacientes, reservar citas, consultar disponibilidad por médico, cancelar citas, reprogramarlas y listar citas usando filtros. También incluye validaciones de negocio, persistencia con H2, migraciones con Flyway, pruebas automatizadas y configuración básica para ejecución local.
