@@ -35,6 +35,201 @@
       "key": "newAppointmentDateTime",
       "value": "2026-07-06T08:30:00",
       "type": "string"
+    },
+    {
+      "key": "penaltyPatientId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "penaltyAppointmentId1",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "penaltyAppointmentId2",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "penaltyAppointmentId3",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "penaltyAppointmentDateTime1",
+      "value": "2026-07-06T08:00:00",
+      "type": "string"
+    },
+    {
+      "key": "penaltyAppointmentDateTime2",
+      "value": "2026-07-06T08:30:00",
+      "type": "string"
+    },
+    {
+      "key": "penaltyAppointmentDateTime3",
+      "value": "2026-07-06T09:00:00",
+      "type": "string"
+    },
+    {
+      "key": "penaltyNextAppointmentDateTime",
+      "value": "2026-07-06T09:30:00",
+      "type": "string"
+    },
+    {
+      "key": "rn01PatientId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn01AppointmentId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn01SaturdayAppointmentId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn01ValidDateTime",
+      "value": "2026-07-06T08:00:00",
+      "type": "string"
+    },
+    {
+      "key": "rn01SaturdayValidDateTime",
+      "value": "2026-07-11T08:00:00",
+      "type": "string"
+    },
+    {
+      "key": "rn01AfterHoursDateTime",
+      "value": "2026-07-06T19:00:00",
+      "type": "string"
+    },
+    {
+      "key": "rn01SundayDateTime",
+      "value": "2026-07-12T08:00:00",
+      "type": "string"
+    },
+    {
+      "key": "rn01InvalidSlotDateTime",
+      "value": "2026-07-06T08:15:00",
+      "type": "string"
+    },
+    {
+      "key": "rn02PatientAId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn02PatientBId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn02AppointmentId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn02DateTime",
+      "value": "2026-07-06T09:00:00",
+      "type": "string"
+    },
+    {
+      "key": "rn03PatientNoBirthDateId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn03PatientFutureBirthDateId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn03AppointmentNoBirthDateId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn03ValidDateTime",
+      "value": "2026-07-06T09:30:00",
+      "type": "string"
+    },
+    {
+      "key": "rn03FutureBirthDate",
+      "value": "2099-01-01",
+      "type": "string"
+    },
+    {
+      "key": "rn04PatientId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn04AppointmentId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn04DateTime",
+      "value": "2026-07-06T10:00:00",
+      "type": "string"
+    },
+    {
+      "key": "rn05PatientId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn05AppointmentId1",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn05AppointmentId2",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn05AppointmentId3",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn05LateAppointmentDateTime",
+      "value": "2026-07-06T08:00:00",
+      "type": "string"
+    },
+    {
+      "key": "rn05NextAppointmentDateTime",
+      "value": "2026-07-06T08:30:00",
+      "type": "string"
+    },
+    {
+      "key": "rn06PatientId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn06OriginalAppointmentId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn06NewAppointmentId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "rn06OriginalDateTime",
+      "value": "2026-07-06T11:00:00",
+      "type": "string"
+    },
+    {
+      "key": "rn06NewDateTime",
+      "value": "2026-07-06T11:30:00",
+      "type": "string"
     }
   ],
   "item": [
@@ -1898,6 +2093,2575 @@
                   "});"
                 ]
               }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Flujo con penalización por cancelación tardía",
+      "description": "Flujo para demostrar penalización por cancelación tardía.\n\nCondición importante: la API usa la hora real del sistema. Para que se genere penalización, cada cita debe estar en una franja laboral válida y a menos de 2 horas del momento de cancelación. Antes de ejecutar, edita las variables de colección: penaltyAppointmentDateTime1, penaltyAppointmentDateTime2 y penaltyAppointmentDateTime3 con franjas válidas próximas.\n\nEjemplo: si estás en lunes 07:10, usa 2026-07-06T08:00:00, 2026-07-06T08:30:00 y 2026-07-06T09:00:00. Si es domingo o estás fuera de una ventana laboral cercana, este flujo no puede generar penalización de forma natural por API; en ese caso valida la regla con los tests automatizados o revisa la tabla penalties en H2 cuando ejecutes en una ventana válida.",
+      "item": [
+        {
+          "name": "00 - Health",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/actuator/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actuator",
+                "health"
+              ]
+            },
+            "description": "Verifica que la aplicación esté levantada antes de iniciar el flujo."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "01 - Crear paciente para penalización",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/patients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "patients"
+              ]
+            },
+            "description": "Crea un paciente único para acumular penalizaciones en esta prueba.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Paciente Penalizacion Postman\",\n  \"documentNumber\": \"PEN{{$timestamp}}\",\n  \"phone\": \"5553001\",\n  \"email\": \"penalizacion{{$timestamp}}@test.com\",\n  \"birthDate\": \"1995-05-20\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 201 Created', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.expect(json.id).to.exist;",
+                  "pm.collectionVariables.set('penaltyPatientId', json.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 - Crear cita tardía 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "appointments"
+              ]
+            },
+            "description": "Crea la primera cita. La variable penaltyAppointmentDateTime1 debe ser una franja válida a menos de 2 horas.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pacienteId\": \"{{penaltyPatientId}}\",\n  \"medicoId\": 1,\n  \"appointmentDateTime\": \"{{penaltyAppointmentDateTime1}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 201 Created', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.expect(json.id).to.exist;",
+                  "pm.expect(json.status).to.eql('PROGRAMADA');",
+                  "pm.collectionVariables.set('penaltyAppointmentId1', json.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 - Cancelar cita tardía 1",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments/{{penaltyAppointmentId1}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "appointments",
+                "{{penaltyAppointmentId1}}",
+                "cancel"
+              ]
+            },
+            "description": "Cancela la primera cita. Si faltan menos de 2 horas, debe registrar una penalización en la tabla penalties."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.expect(json.status).to.eql('CANCELADA');",
+                  "pm.expect(json.cancellationDateTime).to.exist;"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 - Crear cita tardía 2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "appointments"
+              ]
+            },
+            "description": "Crea la segunda cita para el mismo paciente en otra franja válida cercana.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pacienteId\": \"{{penaltyPatientId}}\",\n  \"medicoId\": 2,\n  \"appointmentDateTime\": \"{{penaltyAppointmentDateTime2}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 201 Created', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.expect(json.id).to.exist;",
+                  "pm.expect(json.status).to.eql('PROGRAMADA');",
+                  "pm.collectionVariables.set('penaltyAppointmentId2', json.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 - Cancelar cita tardía 2",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments/{{penaltyAppointmentId2}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "appointments",
+                "{{penaltyAppointmentId2}}",
+                "cancel"
+              ]
+            },
+            "description": "Cancela la segunda cita y registra otra penalización si está dentro de la ventana de menos de 2 horas."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.expect(json.status).to.eql('CANCELADA');",
+                  "pm.expect(json.cancellationDateTime).to.exist;"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 - Crear cita tardía 3",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "appointments"
+              ]
+            },
+            "description": "Crea la tercera cita para el mismo paciente en otra franja válida cercana.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pacienteId\": \"{{penaltyPatientId}}\",\n  \"medicoId\": 3,\n  \"appointmentDateTime\": \"{{penaltyAppointmentDateTime3}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 201 Created', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.expect(json.id).to.exist;",
+                  "pm.expect(json.status).to.eql('PROGRAMADA');",
+                  "pm.collectionVariables.set('penaltyAppointmentId3', json.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 - Cancelar cita tardía 3",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments/{{penaltyAppointmentId3}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "appointments",
+                "{{penaltyAppointmentId3}}",
+                "cancel"
+              ]
+            },
+            "description": "Cancela la tercera cita. Con tres penalizaciones en 30 días, el paciente queda bloqueado para nuevas citas."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.expect(json.status).to.eql('CANCELADA');",
+                  "pm.expect(json.cancellationDateTime).to.exist;"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "08 - Intentar agendar con paciente bloqueado - debe 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "appointments"
+              ]
+            },
+            "description": "Después de acumular tres penalizaciones, este request debe responder 409 Conflict.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pacienteId\": \"{{penaltyPatientId}}\",\n  \"medicoId\": 1,\n  \"appointmentDateTime\": \"{{penaltyNextAppointmentDateTime}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 409 Conflict', function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.expect(json.message || '').to.include('penalizaciones');"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Flujos por Reglas de Negocio (RN-01 a RN-06)",
+      "description": "Carpeta de validación funcional para las reglas de negocio del enunciado. Ejecuta primero '00 - Configurar variables de fechas'. Los flujos RN-01, RN-02, RN-03, RN-04 y RN-06 usan fechas dinámicas futuras. RN-05 depende de la hora real del sistema y solo genera penalización si la cita se cancela con menos de 2 horas de anticipación dentro de una franja laboral válida.",
+      "item": [
+        {
+          "name": "00 - Configuración",
+          "item": [
+            {
+              "name": "00 - Configurar variables de fechas",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/actuator/health",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "actuator",
+                    "health"
+                  ]
+                },
+                "description": "Configura variables dinámicas para que los flujos usen el próximo día laboral, sábado y domingo según corresponda."
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "function pad(n) { return String(n).padStart(2, '0'); }",
+                      "function isoDate(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }",
+                      "function addDays(date, days) { const d = new Date(date); d.setDate(d.getDate() + days); return d; }",
+                      "function nextBusinessDate() {",
+                      "  let d = addDays(new Date(), 1);",
+                      "  while (d.getDay() === 0 || d.getDay() === 6) { d = addDays(d, 1); }",
+                      "  return isoDate(d);",
+                      "}",
+                      "function nextDayOfWeek(targetDay) {",
+                      "  let d = addDays(new Date(), 1);",
+                      "  while (d.getDay() !== targetDay) { d = addDays(d, 1); }",
+                      "  return isoDate(d);",
+                      "}",
+                      "const businessDate = nextBusinessDate();",
+                      "const saturdayDate = nextDayOfWeek(6);",
+                      "const sundayDate = nextDayOfWeek(0);",
+                      "pm.collectionVariables.set('rn01ValidDateTime', businessDate + 'T08:00:00');",
+                      "pm.collectionVariables.set('rn01SaturdayValidDateTime', saturdayDate + 'T08:00:00');",
+                      "pm.collectionVariables.set('rn01AfterHoursDateTime', businessDate + 'T19:00:00');",
+                      "pm.collectionVariables.set('rn01SundayDateTime', sundayDate + 'T08:00:00');",
+                      "pm.collectionVariables.set('rn01InvalidSlotDateTime', businessDate + 'T08:15:00');",
+                      "pm.collectionVariables.set('rn02DateTime', businessDate + 'T09:00:00');",
+                      "pm.collectionVariables.set('rn03ValidDateTime', businessDate + 'T09:30:00');",
+                      "pm.collectionVariables.set('rn04DateTime', businessDate + 'T10:00:00');",
+                      "pm.collectionVariables.set('rn06OriginalDateTime', businessDate + 'T11:00:00');",
+                      "pm.collectionVariables.set('rn06NewDateTime', businessDate + 'T11:30:00');",
+                      "console.log('Business-rule date variables configured with base date: ' + businessDate);"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 200', function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RN-01 - Franjas horarias de atención",
+          "description": "Valida horarios laborales, sábado, domingo y franjas exactas de 30 minutos.",
+          "item": [
+            {
+              "name": "01 - Crear paciente RN-01",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/patients",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "patients"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fullName\": \"Paciente RN01\",\n  \"documentNumber\": \"RN01{{$timestamp}}\",\n  \"phone\": \"5553001\",\n  \"email\": \"rn01{{$timestamp}}@test.com\",\n  \"birthDate\": \"1995-05-20\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.collectionVariables.set('rn01PatientId', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "02 - Agendar cita válida lunes-viernes",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn01PatientId}}\",\n  \"medicoId\": 1,\n  \"appointmentDateTime\": \"{{rn01ValidDateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.expect(json.status).to.eql('PROGRAMADA');",
+                      "pm.collectionVariables.set('rn01AppointmentId', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "03 - Agendar cita válida sábado",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn01PatientId}}\",\n  \"medicoId\": 2,\n  \"appointmentDateTime\": \"{{rn01SaturdayValidDateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.expect(json.status).to.eql('PROGRAMADA');",
+                      "pm.collectionVariables.set('rn01SaturdayAppointmentId', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "04 - Rechazar cita fuera de horario",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn01PatientId}}\",\n  \"medicoId\": 3,\n  \"appointmentDateTime\": \"{{rn01AfterHoursDateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 400', function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "05 - Rechazar cita en domingo",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn01PatientId}}\",\n  \"medicoId\": 3,\n  \"appointmentDateTime\": \"{{rn01SundayDateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 400', function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "06 - Rechazar franja no exacta de 30 minutos",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn01PatientId}}\",\n  \"medicoId\": 3,\n  \"appointmentDateTime\": \"{{rn01InvalidSlotDateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 400', function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RN-02 - No duplicidad de citas por médico",
+          "description": "Valida que un médico no tenga dos citas programadas en la misma franja.",
+          "item": [
+            {
+              "name": "01 - Crear paciente A RN-02",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/patients",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "patients"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fullName\": \"Paciente RN02 A\",\n  \"documentNumber\": \"RN02A{{$timestamp}}\",\n  \"phone\": \"5553002\",\n  \"email\": \"rn02a{{$timestamp}}@test.com\",\n  \"birthDate\": \"1990-01-01\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.collectionVariables.set('rn02PatientAId', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "02 - Crear paciente B RN-02",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/patients",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "patients"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fullName\": \"Paciente RN02 B\",\n  \"documentNumber\": \"RN02B{{$timestamp}}\",\n  \"phone\": \"5553003\",\n  \"email\": \"rn02b{{$timestamp}}@test.com\",\n  \"birthDate\": \"1991-01-01\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.collectionVariables.set('rn02PatientBId', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "03 - Agendar primera cita del médico",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn02PatientAId}}\",\n  \"medicoId\": 2,\n  \"appointmentDateTime\": \"{{rn02DateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.expect(json.status).to.eql('PROGRAMADA');",
+                      "pm.collectionVariables.set('rn02AppointmentId', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "04 - Rechazar segunda cita del mismo médico en la misma franja",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn02PatientBId}}\",\n  \"medicoId\": 2,\n  \"appointmentDateTime\": \"{{rn02DateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 409 Conflict', function () {",
+                      "    pm.response.to.have.status(409);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.test('Message contains médico', function () {",
+                      "    pm.expect(json.message || '').to.include('médico');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RN-03 - Fecha de nacimiento futura",
+          "description": "Valida que el paciente sin fecha de nacimiento pueda agendar y que una fecha futura sea rechazada al agendar.",
+          "item": [
+            {
+              "name": "01 - Crear paciente sin fecha de nacimiento",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/patients",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "patients"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fullName\": \"Paciente RN03 Sin Fecha\",\n  \"documentNumber\": \"RN03S{{$timestamp}}\",\n  \"phone\": \"5553004\",\n  \"email\": \"rn03sin{{$timestamp}}@test.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.collectionVariables.set('rn03PatientNoBirthDateId', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "02 - Agendar cita para paciente sin fecha de nacimiento",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn03PatientNoBirthDateId}}\",\n  \"medicoId\": 3,\n  \"appointmentDateTime\": \"{{rn03ValidDateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.expect(json.status).to.eql('PROGRAMADA');",
+                      "pm.collectionVariables.set('rn03AppointmentNoBirthDateId', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "03 - Crear paciente con fecha de nacimiento futura",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/patients",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "patients"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fullName\": \"Paciente RN03 Fecha Futura\",\n  \"documentNumber\": \"RN03F{{$timestamp}}\",\n  \"phone\": \"5553005\",\n  \"email\": \"rn03futura{{$timestamp}}@test.com\",\n  \"birthDate\": \"{{rn03FutureBirthDate}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.collectionVariables.set('rn03PatientFutureBirthDateId', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "04 - Rechazar agendamiento por fecha de nacimiento futura",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn03PatientFutureBirthDateId}}\",\n  \"medicoId\": 3,\n  \"appointmentDateTime\": \"{{rn03ValidDateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 400', function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RN-04 - Conflicto de paciente",
+          "description": "Valida que un paciente no tenga dos citas programadas en la misma franja, incluso con médicos distintos.",
+          "item": [
+            {
+              "name": "01 - Crear paciente RN-04",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/patients",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "patients"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fullName\": \"Paciente RN04\",\n  \"documentNumber\": \"RN04{{$timestamp}}\",\n  \"phone\": \"5553006\",\n  \"email\": \"rn04{{$timestamp}}@test.com\",\n  \"birthDate\": \"1992-02-02\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.collectionVariables.set('rn04PatientId', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "02 - Agendar cita con médico 1",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn04PatientId}}\",\n  \"medicoId\": 1,\n  \"appointmentDateTime\": \"{{rn04DateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.expect(json.status).to.eql('PROGRAMADA');",
+                      "pm.collectionVariables.set('rn04AppointmentId', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "03 - Rechazar cita del mismo paciente en la misma franja con otro médico",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn04PatientId}}\",\n  \"medicoId\": 3,\n  \"appointmentDateTime\": \"{{rn04DateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 409 Conflict', function () {",
+                      "    pm.response.to.have.status(409);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.test('Message contains paciente', function () {",
+                      "    pm.expect(json.message || '').to.include('paciente');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RN-05 - Penalización por cancelación tardía",
+          "description": "Valida la creación de penalizaciones por cancelación con menos de 2 horas de anticipación y el bloqueo con 3 penalizaciones en los últimos 30 días. Este flujo depende de la hora real; si 'rn05PenaltyWindowAvailable' queda en false, ajusta manualmente rn05LateAppointmentDateTime a una franja laboral válida menor a 2 horas desde el momento actual.",
+          "item": [
+            {
+              "name": "00 - Intentar configurar fecha tardía automáticamente",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/actuator/health",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "actuator",
+                    "health"
+                  ]
+                },
+                "description": "Intenta detectar si existe una franja laboral válida a menos de 2 horas para ejecutar el flujo RN-05."
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "function pad(n) { return String(n).padStart(2, '0'); }",
+                      "function isoDate(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }",
+                      "function roundToNextHalfHour(d) {",
+                      "  const r = new Date(d);",
+                      "  r.setSeconds(0, 0);",
+                      "  const m = r.getMinutes();",
+                      "  if (m === 0) { r.setMinutes(30); }",
+                      "  else if (m <= 30) { r.setMinutes(30); }",
+                      "  else { r.setHours(r.getHours() + 1, 0); }",
+                      "  return r;",
+                      "}",
+                      "const now = new Date();",
+                      "const candidate = roundToNextHalfHour(now);",
+                      "const day = candidate.getDay();",
+                      "const hour = candidate.getHours();",
+                      "const minute = candidate.getMinutes();",
+                      "let validWindow = false;",
+                      "if (day >= 1 && day <= 5) {",
+                      "  validWindow = (hour > 8 || (hour === 8 && minute >= 0)) && (hour < 18);",
+                      "} else if (day === 6) {",
+                      "  validWindow = (hour > 8 || (hour === 8 && minute >= 0)) && (hour < 13);",
+                      "}",
+                      "const diffMs = candidate.getTime() - now.getTime();",
+                      "validWindow = validWindow && diffMs > 0 && diffMs < (2 * 60 * 60 * 1000);",
+                      "if (validWindow) {",
+                      "  const dateTime = isoDate(candidate) + 'T' + pad(candidate.getHours()) + ':' + pad(candidate.getMinutes()) + ':00';",
+                      "  pm.collectionVariables.set('rn05LateAppointmentDateTime', dateTime);",
+                      "  pm.collectionVariables.set('rn05NextAppointmentDateTime', dateTime);",
+                      "  pm.collectionVariables.set('rn05PenaltyWindowAvailable', 'true');",
+                      "  console.log('RN-05 can run now. Late appointment date-time: ' + dateTime);",
+                      "} else {",
+                      "  pm.collectionVariables.set('rn05PenaltyWindowAvailable', 'false');",
+                      "  console.warn('RN-05 cannot generate a real late-cancellation penalty right now. Set rn05LateAppointmentDateTime manually to a valid working slot less than 2 hours ahead.');",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 200', function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "01 - Crear paciente RN-05",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/patients",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "patients"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fullName\": \"Paciente RN05\",\n  \"documentNumber\": \"RN05{{$timestamp}}\",\n  \"phone\": \"5553007\",\n  \"email\": \"rn05{{$timestamp}}@test.com\",\n  \"birthDate\": \"1993-03-03\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.collectionVariables.set('rn05PatientId', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "02 - Agendar cita tardía 1",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn05PatientId}}\",\n  \"medicoId\": 1,\n  \"appointmentDateTime\": \"{{rn05LateAppointmentDateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.expect(json.status).to.eql('PROGRAMADA');",
+                      "pm.collectionVariables.set('rn05AppointmentId1', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "03 - Cancelar cita tardía 1",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments/{{rn05AppointmentId1}}/cancel",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments",
+                    "{{rn05AppointmentId1}}",
+                    "cancel"
+                  ]
+                },
+                "description": ""
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 200', function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "pm.test('Appointment status is CANCELADA', function () {",
+                      "    const json = pm.response.json();",
+                      "    pm.expect(json.status).to.eql('CANCELADA');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "04 - Agendar cita tardía 2",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn05PatientId}}\",\n  \"medicoId\": 1,\n  \"appointmentDateTime\": \"{{rn05LateAppointmentDateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.expect(json.status).to.eql('PROGRAMADA');",
+                      "pm.collectionVariables.set('rn05AppointmentId2', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "05 - Cancelar cita tardía 2",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments/{{rn05AppointmentId2}}/cancel",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments",
+                    "{{rn05AppointmentId2}}",
+                    "cancel"
+                  ]
+                },
+                "description": ""
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 200', function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "pm.test('Appointment status is CANCELADA', function () {",
+                      "    const json = pm.response.json();",
+                      "    pm.expect(json.status).to.eql('CANCELADA');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "06 - Agendar cita tardía 3",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn05PatientId}}\",\n  \"medicoId\": 1,\n  \"appointmentDateTime\": \"{{rn05LateAppointmentDateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.expect(json.status).to.eql('PROGRAMADA');",
+                      "pm.collectionVariables.set('rn05AppointmentId3', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "07 - Cancelar cita tardía 3",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments/{{rn05AppointmentId3}}/cancel",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments",
+                    "{{rn05AppointmentId3}}",
+                    "cancel"
+                  ]
+                },
+                "description": ""
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 200', function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "pm.test('Appointment status is CANCELADA', function () {",
+                      "    const json = pm.response.json();",
+                      "    pm.expect(json.status).to.eql('CANCELADA');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "08 - Rechazar nuevo agendamiento por 3 penalizaciones",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn05PatientId}}\",\n  \"medicoId\": 1,\n  \"appointmentDateTime\": \"{{rn05NextAppointmentDateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 409 Conflict', function () {",
+                      "    pm.response.to.have.status(409);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.test('Message contains penalizaciones', function () {",
+                      "    pm.expect(json.message || '').to.include('penalizaciones');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RN-06 - Reprogramación",
+          "description": "Valida que una reprogramación cancele la cita original y cree una nueva cita en una franja disponible.",
+          "item": [
+            {
+              "name": "01 - Crear paciente RN-06",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/patients",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "patients"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fullName\": \"Paciente RN06\",\n  \"documentNumber\": \"RN06{{$timestamp}}\",\n  \"phone\": \"5553008\",\n  \"email\": \"rn06{{$timestamp}}@test.com\",\n  \"birthDate\": \"1994-04-04\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.collectionVariables.set('rn06PatientId', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "02 - Agendar cita original",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"pacienteId\": \"{{rn06PatientId}}\",\n  \"medicoId\": 1,\n  \"appointmentDateTime\": \"{{rn06OriginalDateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.expect(json.status).to.eql('PROGRAMADA');",
+                      "pm.collectionVariables.set('rn06OriginalAppointmentId', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "03 - Reprogramar cita",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments/{{rn06OriginalAppointmentId}}/reschedule",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments",
+                    "{{rn06OriginalAppointmentId}}",
+                    "reschedule"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"newDateTime\": \"{{rn06NewDateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 200', function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.expect(json.id).to.exist;",
+                      "pm.expect(json.status).to.eql('PROGRAMADA');",
+                      "pm.collectionVariables.set('rn06NewAppointmentId', json.id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "04 - Consultar cita original cancelada",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments/{{rn06OriginalAppointmentId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments",
+                    "{{rn06OriginalAppointmentId}}"
+                  ]
+                },
+                "description": ""
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 200', function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "pm.test('Appointment status is CANCELADA', function () {",
+                      "    const json = pm.response.json();",
+                      "    pm.expect(json.status).to.eql('CANCELADA');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "05 - Consultar nueva cita programada",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments/{{rn06NewAppointmentId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments",
+                    "{{rn06NewAppointmentId}}"
+                  ]
+                },
+                "description": ""
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 200', function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "pm.test('Appointment status is PROGRAMADA', function () {",
+                      "    const json = pm.response.json();",
+                      "    pm.expect(json.status).to.eql('PROGRAMADA');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "06 - Rechazar reprogramación al mismo horario",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/appointments/{{rn06NewAppointmentId}}/reschedule",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "appointments",
+                    "{{rn06NewAppointmentId}}",
+                    "reschedule"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"newDateTime\": \"{{rn06NewDateTime}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [],
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status is 409 Conflict', function () {",
+                      "    pm.response.to.have.status(409);",
+                      "});",
+                      "const json = pm.response.json();",
+                      "pm.test('Message contains diferente', function () {",
+                      "    pm.expect(json.message || '').to.include('diferente');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
             }
           ]
         }
