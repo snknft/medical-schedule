@@ -68,6 +68,24 @@ class PatientApiIntegrationTest extends RestApiTestSupport {
                 .andExpect(jsonPath("$.status").value(409));
     }
 
+
+    @Test
+    void rejectsPatientPhoneWithoutSevenDigits() throws Exception {
+        mockMvc.perform(post("/api/patients")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "fullName": "Paciente Teléfono Inválido",
+                                  "documentNumber": "DOC%s",
+                                  "phone": "--- --- ---",
+                                  "email": "invalid.phone.%s@example.com",
+                                  "birthDate": "1995-05-20"
+                                }
+                                """.formatted(uniqueSuffix(), uniqueSuffix())))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400));
+    }
+
     @Test
     void returnsNotFoundWhenPatientDoesNotExist() throws Exception {
         mockMvc.perform(get("/api/patients/{id}", 999999L))

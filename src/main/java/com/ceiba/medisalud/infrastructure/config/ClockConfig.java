@@ -12,7 +12,9 @@ import org.springframework.context.annotation.Configuration;
 public class ClockConfig {
 
     /**
-     * Executes the clock operation.
+     * Provides the application clock used by time-sensitive rules.
+     *
+     * @return system default zone clock
      */
     @Bean
     public Clock clock() {

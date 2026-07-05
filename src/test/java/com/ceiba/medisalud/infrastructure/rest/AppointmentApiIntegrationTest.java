@@ -39,6 +39,49 @@ class AppointmentApiIntegrationTest extends RestApiTestSupport {
                 .andExpect(jsonPath("$[0].id").value(appointmentId));
     }
 
+
+    @Test
+    void createsAppointmentWithSpanishBodyAliasesAndSearchesWithSpanishQueryAliases() throws Exception {
+        Long doctorId = createDoctor();
+        Long patientId = createPatient();
+        LocalDate testDate = uniqueFutureBusinessDate();
+        LocalDateTime appointmentDateTime = slot(testDate, 0);
+
+        var result = mockMvc.perform(post("/api/appointments")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "pacienteId": %d,
+                                  "medicoId": %d,
+                                  "appointmentDateTime": "%s"
+                                }
+                                """.formatted(patientId, doctorId, appointmentDateTime)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.patientId").value(patientId))
+                .andExpect(jsonPath("$.doctorId").value(doctorId))
+                .andReturn();
+
+        Long appointmentId = json(result).get("id").asLong();
+
+        mockMvc.perform(get("/api/appointments")
+                        .param("medicoId", doctorId.toString())
+                        .param("pacienteId", patientId.toString())
+                        .param("status", "PROGRAMADA")
+                        .param("fechaInicio", testDate.atStartOfDay().toString())
+                        .param("fechaFin", testDate.atTime(23, 59, 59).toString()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(appointmentId));
+    }
+
+    @Test
+    void rejectsConflictingEnglishAndSpanishSearchAliases() throws Exception {
+        mockMvc.perform(get("/api/appointments")
+                        .param("doctorId", "1")
+                        .param("medicoId", "2"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400));
+    }
+
     @Test
     void rejectsDuplicatedDoctorSlot() throws Exception {
         Long doctorId = createDoctor();

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import com.ceiba.medisalud.domain.exception.ConflictException;
 
 /**
- * Represents the appointment aggregate and enforces state transitions for cancellations and attendance.
+ * Represents the appointment aggregate and enforces valid state transitions for cancellation and attendance.
  */
 public class Appointment {
 
@@ -17,7 +17,14 @@ public class Appointment {
     private LocalDateTime cancellationDateTime;
 
     /**
-     * Creates a new Appointment instance.
+     * Creates an appointment aggregate.
+     *
+     * @param id appointment identifier, or {@code null} before persistence
+     * @param patientId patient identifier associated with the appointment
+     * @param doctorId doctor identifier associated with the appointment
+     * @param appointmentDateTime scheduled appointment start date-time
+     * @param status current lifecycle status
+     * @param cancellationDateTime cancellation date-time, or {@code null} when not cancelled
      */
     public Appointment(
             Long id,
@@ -36,42 +43,54 @@ public class Appointment {
     }
 
     /**
-     * Returns the id value.
+     * Returns the appointment identifier.
+     *
+     * @return appointment identifier
      */
     public Long getId() {
         return id;
     }
 
     /**
-     * Returns the patientId value.
+     * Returns the patient identifier.
+     *
+     * @return patient identifier
      */
     public Long getPatientId() {
         return patientId;
     }
 
     /**
-     * Returns the doctorId value.
+     * Returns the doctor identifier.
+     *
+     * @return doctor identifier
      */
     public Long getDoctorId() {
         return doctorId;
     }
 
     /**
-     * Returns the appointmentDateTime value.
+     * Returns the scheduled appointment start date-time.
+     *
+     * @return appointment start date-time
      */
     public LocalDateTime getAppointmentDateTime() {
         return appointmentDateTime;
     }
 
     /**
-     * Returns the status value.
+     * Returns the current lifecycle status.
+     *
+     * @return appointment status
      */
     public AppointmentStatus getStatus() {
         return status;
     }
 
     /**
-     * Returns the cancellationDateTime value.
+     * Returns the cancellation date-time when the appointment has been cancelled.
+     *
+     * @return cancellation date-time, or {@code null} when not cancelled
      */
     public LocalDateTime getCancellationDateTime() {
         return cancellationDateTime;
@@ -79,6 +98,8 @@ public class Appointment {
 
     /**
      * Changes the appointment status to cancelled when the current state allows it.
+     *
+     * @param cancellationDateTime date-time when the cancellation is registered
      */
     public void cancel(LocalDateTime cancellationDateTime) {
         if (status != AppointmentStatus.PROGRAMADA) {

@@ -17,6 +17,9 @@ public class DomainBeansConfig {
 
     /**
      * Provides the working hours policy used by the domain layer.
+     *
+     * @param holidayProvider provider used to exclude holidays
+     * @return configured working hours policy
      */
     @Bean
     public WorkingHoursPolicy workingHoursPolicy(HolidayProvider holidayProvider) {
@@ -25,6 +28,9 @@ public class DomainBeansConfig {
 
     /**
      * Provides the appointment rules service used by application use cases.
+     *
+     * @param workingHoursPolicy policy used to validate schedule slots
+     * @return appointment rules service
      */
     @Bean
     public AppointmentRulesService appointmentRulesService(WorkingHoursPolicy workingHoursPolicy) {
@@ -33,6 +39,8 @@ public class DomainBeansConfig {
 
     /**
      * Provides the appointment factory used to create domain appointments.
+     *
+     * @return appointment factory
      */
     @Bean
     public AppointmentFactory appointmentFactory() {

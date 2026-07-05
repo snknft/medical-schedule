@@ -9,6 +9,12 @@ import jakarta.validation.constraints.Size;
 
 /**
  * Represents the REST request used to register a patient.
+ *
+ * @param fullName patient's complete name, required between 3 and 100 characters
+ * @param documentNumber unique identity document, required with at least seven characters
+ * @param phone required contact phone containing at least seven digits
+ * @param email required contact email with a valid format
+ * @param birthDate optional birth date validated when scheduling appointments
  */
 public record CreatePatientRequest(
         @NotBlank(message = "El nombre completo es obligatorio")
@@ -20,7 +26,10 @@ public record CreatePatientRequest(
         String documentNumber,
 
         @NotBlank(message = "El teléfono es obligatorio")
-        @Pattern(regexp = "^[0-9+\\-()\\s]{7,30}$", message = "El teléfono debe tener mínimo 7 dígitos o caracteres válidos")
+        @Pattern(
+                regexp = "^(?=(?:\\D*\\d){7,}\\D*$)[0-9+\\-()\\s]{7,30}$",
+                message = "El teléfono debe contener mínimo 7 dígitos y solo caracteres válidos"
+        )
         String phone,
 
         @NotBlank(message = "El email es obligatorio")

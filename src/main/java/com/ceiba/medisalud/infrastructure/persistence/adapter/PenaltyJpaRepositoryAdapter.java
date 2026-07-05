@@ -18,7 +18,9 @@ public class PenaltyJpaRepositoryAdapter implements PenaltyRepositoryPort {
     private final SpringDataPenaltyJpaRepository repository;
 
     /**
-     * Creates a new PenaltyJpaRepositoryAdapter instance.
+     * Creates the penalty adapter with the Spring Data repository.
+     *
+     * @param repository Spring Data repository used for penalty persistence
      */
     public PenaltyJpaRepositoryAdapter(SpringDataPenaltyJpaRepository repository) {
         this.repository = repository;
@@ -26,6 +28,9 @@ public class PenaltyJpaRepositoryAdapter implements PenaltyRepositoryPort {
 
     /**
      * Persists the provided domain object and returns the saved instance.
+     *
+     * @param penalty domain penalty to persist
+     * @return persisted penalty
      */
     @Override
     public Penalty save(Penalty penalty) {
@@ -34,6 +39,10 @@ public class PenaltyJpaRepositoryAdapter implements PenaltyRepositoryPort {
 
     /**
      * Counts patient penalties registered from the provided date-time.
+     *
+     * @param patientId patient identifier
+     * @param since lower bound date-time for counting penalties
+     * @return number of penalties registered since the provided date-time
      */
     @Override
     public long countByPatientIdSince(Long patientId, LocalDateTime since) {

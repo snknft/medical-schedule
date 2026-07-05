@@ -9,20 +9,26 @@ import com.ceiba.medisalud.infrastructure.persistence.entity.DoctorJpaEntity;
 public final class DoctorJpaMapper {
 
     /**
-     * Creates a new DoctorJpaMapper instance.
+     * Prevents instantiation of the DoctorJpaMapper utility class.
      */
     private DoctorJpaMapper() {
     }
 
     /**
-     * Maps a persistence representation into a domain object.
+     * Maps a doctor JPA entity into a domain object.
+     *
+     * @param entity doctor JPA entity
+     * @return doctor domain object
      */
     public static Doctor toDomain(DoctorJpaEntity entity) {
         return new Doctor(entity.getId(), entity.getFullName(), entity.getSpecialty(), entity.getPhone(), entity.getEmail());
     }
 
     /**
-     * Maps a domain object into a persistence representation.
+     * Maps a doctor domain object into a JPA entity.
+     *
+     * @param doctor doctor domain object
+     * @return doctor JPA entity
      */
     public static DoctorJpaEntity toEntity(Doctor doctor) {
         return new DoctorJpaEntity(doctor.id(), doctor.fullName(), doctor.specialty(), doctor.phone(), doctor.email());

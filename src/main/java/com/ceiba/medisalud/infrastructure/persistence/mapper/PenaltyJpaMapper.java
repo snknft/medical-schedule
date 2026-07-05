@@ -9,20 +9,26 @@ import com.ceiba.medisalud.infrastructure.persistence.entity.PenaltyJpaEntity;
 public final class PenaltyJpaMapper {
 
     /**
-     * Creates a new PenaltyJpaMapper instance.
+     * Prevents instantiation of the PenaltyJpaMapper utility class.
      */
     private PenaltyJpaMapper() {
     }
 
     /**
-     * Maps a persistence representation into a domain object.
+     * Maps a penalty JPA entity into a domain object.
+     *
+     * @param entity penalty JPA entity
+     * @return penalty domain object
      */
     public static Penalty toDomain(PenaltyJpaEntity entity) {
         return new Penalty(entity.getId(), entity.getPatientId(), entity.getAppointmentId(), entity.getPenaltyDateTime(), entity.getReason());
     }
 
     /**
-     * Maps a domain object into a persistence representation.
+     * Maps a penalty domain object into a JPA entity.
+     *
+     * @param penalty penalty domain object
+     * @return penalty JPA entity
      */
     public static PenaltyJpaEntity toEntity(Penalty penalty) {
         return new PenaltyJpaEntity(penalty.id(), penalty.patientId(), penalty.appointmentId(), penalty.penaltyDateTime(), penalty.reason());

@@ -17,7 +17,9 @@ public class ConfiguredHolidayProvider implements HolidayProvider {
     private final Set<LocalDate> holidays;
 
     /**
-     * Creates a new ConfiguredHolidayProvider instance.
+     * Creates the provider from configured MediSalud properties.
+     *
+     * @param properties application properties that contain configured holidays
      */
     public ConfiguredHolidayProvider(MedisaludProperties properties) {
         this.holidays = new HashSet<>(properties.getHolidays());
@@ -25,6 +27,9 @@ public class ConfiguredHolidayProvider implements HolidayProvider {
 
     /**
      * Determines whether the provided date is configured as a holiday.
+     *
+     * @param date date to evaluate
+     * @return {@code true} when the date is configured as a holiday
      */
     @Override
     public boolean isHoliday(LocalDate date) {

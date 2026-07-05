@@ -9,13 +9,16 @@ import com.ceiba.medisalud.infrastructure.persistence.entity.AppointmentJpaEntit
 public final class AppointmentJpaMapper {
 
     /**
-     * Creates a new AppointmentJpaMapper instance.
+     * Prevents instantiation of the AppointmentJpaMapper utility class.
      */
     private AppointmentJpaMapper() {
     }
 
     /**
-     * Maps a persistence representation into a domain object.
+     * Maps an appointment JPA entity into a domain object.
+     *
+     * @param entity appointment JPA entity
+     * @return appointment domain object
      */
     public static Appointment toDomain(AppointmentJpaEntity entity) {
         return new Appointment(
@@ -29,7 +32,10 @@ public final class AppointmentJpaMapper {
     }
 
     /**
-     * Maps a domain object into a persistence representation.
+     * Maps an appointment domain object into a JPA entity.
+     *
+     * @param appointment appointment domain object
+     * @return appointment JPA entity
      */
     public static AppointmentJpaEntity toEntity(Appointment appointment) {
         return new AppointmentJpaEntity(

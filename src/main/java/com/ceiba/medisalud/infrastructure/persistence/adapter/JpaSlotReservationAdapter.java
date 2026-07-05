@@ -13,7 +13,7 @@ import com.ceiba.medisalud.infrastructure.persistence.springdata.SpringDataDocto
 import com.ceiba.medisalud.infrastructure.persistence.springdata.SpringDataPatientSlotLockJpaRepository;
 
 /**
- * Defines the JpaSlotReservationAdapter component of the MediSalud appointment system.
+ * Implements guarded slot reservations using doctor and patient lock tables.
  */
 @Repository
 public class JpaSlotReservationAdapter implements SlotReservationPort {
@@ -22,7 +22,10 @@ public class JpaSlotReservationAdapter implements SlotReservationPort {
     private final SpringDataPatientSlotLockJpaRepository patientSlotLockRepository;
 
     /**
-     * Creates a new JpaSlotReservationAdapter instance.
+     * Creates the slot reservation adapter with doctor and patient lock repositories.
+     *
+     * @param doctorSlotLockRepository repository used to persist doctor slot locks
+     * @param patientSlotLockRepository repository used to persist patient slot locks
      */
     public JpaSlotReservationAdapter(
             SpringDataDoctorSlotLockJpaRepository doctorSlotLockRepository,
@@ -34,6 +37,10 @@ public class JpaSlotReservationAdapter implements SlotReservationPort {
 
     /**
      * Reserves an appointment slot for the doctor and patient.
+     *
+     * @param doctorId doctor identifier
+     * @param patientId patient identifier
+     * @param appointmentDateTime appointment slot date-time
      */
     @Override
     public void reserve(Long doctorId, Long patientId, LocalDateTime appointmentDateTime) {
@@ -43,6 +50,10 @@ public class JpaSlotReservationAdapter implements SlotReservationPort {
 
     /**
      * Releases the appointment slot reservation for the doctor and patient.
+     *
+     * @param doctorId doctor identifier
+     * @param patientId patient identifier
+     * @param appointmentDateTime appointment slot date-time
      */
     @Override
     public void release(Long doctorId, Long patientId, LocalDateTime appointmentDateTime) {
@@ -52,6 +63,9 @@ public class JpaSlotReservationAdapter implements SlotReservationPort {
 
     /**
      * Persists the guarded slot reservation for a doctor.
+     *
+     * @param doctorId doctor identifier
+     * @param appointmentDateTime appointment slot date-time
      */
     private void reserveDoctorSlot(Long doctorId, LocalDateTime appointmentDateTime) {
         try {
@@ -63,6 +77,9 @@ public class JpaSlotReservationAdapter implements SlotReservationPort {
 
     /**
      * Persists the guarded slot reservation for a patient.
+     *
+     * @param patientId patient identifier
+     * @param appointmentDateTime appointment slot date-time
      */
     private void reservePatientSlot(Long patientId, LocalDateTime appointmentDateTime) {
         try {

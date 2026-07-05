@@ -15,14 +15,18 @@ public class MedisaludProperties {
     private List<LocalDate> holidays = new ArrayList<>();
 
     /**
-     * Returns the holidays value.
+     * Returns configured holidays.
+     *
+     * @return configured holiday dates
      */
     public List<LocalDate> getHolidays() {
         return holidays;
     }
 
     /**
-     * Updates the holidays value.
+     * Updates configured holidays.
+     *
+     * @param holidays holiday dates loaded from configuration
      */
     public void setHolidays(List<LocalDate> holidays) {
         this.holidays = holidays;

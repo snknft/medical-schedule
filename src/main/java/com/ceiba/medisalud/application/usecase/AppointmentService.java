@@ -51,7 +51,17 @@ public class AppointmentService {
     private final Clock clock;
 
     /**
-     * Creates a new AppointmentService instance.
+     * Creates the appointment service with the required persistence ports, domain services and clock.
+     *
+     * @param doctorRepository port used to validate and query doctors
+     * @param patientRepository port used to validate and query patients
+     * @param appointmentRepository port used to persist and query appointments
+     * @param penaltyRepository port used to persist and count penalties
+     * @param slotReservationPort port used to reserve and release active slot locks
+     * @param appointmentFactory factory used to create scheduled appointments
+     * @param appointmentRulesService domain service with appointment validation rules
+     * @param workingHoursPolicy policy used to calculate serviceable slots
+     * @param clock application clock used to make time-dependent rules testable
      */
     public AppointmentService(
             DoctorRepositoryPort doctorRepository,
@@ -77,6 +87,9 @@ public class AppointmentService {
 
     /**
      * Schedules a new appointment after applying business validations and slot reservations.
+     *
+     * @param command scheduling command with patient, doctor and requested date-time
+     * @return persisted scheduled appointment
      */
     public Appointment schedule(ScheduleAppointmentCommand command) {
         Patient patient = getPatientOrFail(command.patientId());
@@ -99,6 +112,9 @@ public class AppointmentService {
 
     /**
      * Cancels an appointment and applies a late cancellation penalty when required.
+     *
+     * @param appointmentId appointment identifier
+     * @return cancelled appointment
      */
     public Appointment cancel(Long appointmentId) {
         Appointment appointment = getAppointmentOrFail(appointmentId);
@@ -123,6 +139,9 @@ public class AppointmentService {
 
     /**
      * Reprograms an existing appointment by cancelling it and creating a new scheduled appointment.
+     *
+     * @param command rescheduling command with the original appointment and new date-time
+     * @return new appointment created for the requested date-time
      */
     public Appointment reschedule(RescheduleAppointmentCommand command) {
         Appointment original = getAppointmentOrFail(command.appointmentId());
@@ -164,6 +183,9 @@ public class AppointmentService {
 
     /**
      * Marks an appointment as attended and releases its active slot reservation.
+     *
+     * @param appointmentId appointment identifier
+     * @return attended appointment
      */
     public Appointment attend(Long appointmentId) {
         Appointment appointment = getAppointmentOrFail(appointmentId);
@@ -174,7 +196,10 @@ public class AppointmentService {
     }
 
     /**
-     * Returns the byId value.
+     * Retrieves an appointment by identifier.
+     *
+     * @param appointmentId appointment identifier
+     * @return appointment when found
      */
     @Transactional(readOnly = true)
     public Appointment getById(Long appointmentId) {
@@ -183,6 +208,9 @@ public class AppointmentService {
 
     /**
      * Searches appointments using the provided optional filters.
+     *
+     * @param criteria optional search filters
+     * @return appointments matching the criteria
      */
     @Transactional(readOnly = true)
     public List<Appointment> search(AppointmentSearchCriteria criteria) {
@@ -191,6 +219,9 @@ public class AppointmentService {
 
     /**
      * Calculates available appointment slots for a doctor within a date range.
+     *
+     * @param query availability query with doctor identifier and date range
+     * @return available slots not occupied by scheduled appointments
      */
     @Transactional(readOnly = true)
     public List<AvailableSlot> findAvailableSlots(AvailableSlotsQuery query) {
@@ -220,6 +251,9 @@ public class AppointmentService {
 
     /**
      * Ensures that a reprogramming operation does not immediately block the patient.
+     *
+     * @param appointment appointment being reprogrammed
+     * @param now current application date-time
      */
     private void ensureReprogrammingDoesNotCreatePenaltyBlock(Appointment appointment, LocalDateTime now) {
         if (!appointmentRulesService.isLateCancellation(appointment.getAppointmentDateTime(), now)) {
@@ -234,6 +268,11 @@ public class AppointmentService {
 
     /**
      * Validates that neither the doctor nor the patient has an active appointment in the same slot.
+     *
+     * @param doctorId doctor identifier
+     * @param patientId patient identifier
+     * @param dateTime appointment slot to validate
+     * @param excludedAppointmentId appointment identifier ignored during validation, typically the original appointment in rescheduling
      */
     private void validateNoConflicts(Long doctorId, Long patientId, LocalDateTime dateTime, Long excludedAppointmentId) {
         if (appointmentRepository.existsScheduledForDoctorAt(doctorId, dateTime, excludedAppointmentId)) {
@@ -246,6 +285,9 @@ public class AppointmentService {
 
     /**
      * Ensures that the patient is not blocked by recent penalties.
+     *
+     * @param patientId patient identifier
+     * @param now current application date-time
      */
     private void ensurePatientCanSchedule(Long patientId, LocalDateTime now) {
         LocalDateTime since = now.minusDays(PENALTY_WINDOW_DAYS);
@@ -257,6 +299,8 @@ public class AppointmentService {
 
     /**
      * Ensures that a doctor exists before continuing the use case.
+     *
+     * @param doctorId doctor identifier
      */
     private void ensureDoctorExists(Long doctorId) {
         if (!doctorRepository.existsById(doctorId)) {
@@ -265,7 +309,10 @@ public class AppointmentService {
     }
 
     /**
-     * Returns the patientOrFail value.
+     * Retrieves a patient or fails with a not-found exception.
+     *
+     * @param patientId patient identifier
+     * @return patient when found
      */
     private Patient getPatientOrFail(Long patientId) {
         return patientRepository.findById(patientId)
@@ -273,7 +320,10 @@ public class AppointmentService {
     }
 
     /**
-     * Returns the appointmentOrFail value.
+     * Retrieves an appointment or fails with a not-found exception.
+     *
+     * @param appointmentId appointment identifier
+     * @return appointment when found
      */
     private Appointment getAppointmentOrFail(Long appointmentId) {
         return appointmentRepository.findById(appointmentId)

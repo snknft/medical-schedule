@@ -10,14 +10,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
+/**
+ * Represents the JPA persistence entity that protects active doctor slot reservations.
+ */
 @Entity
 @Table(
         name = "doctor_slot_locks",
         uniqueConstraints = @UniqueConstraint(name = "uk_doctor_slot_lock", columnNames = {"doctor_id", "appointment_date_time"})
 )
-/**
- * Represents the JPA persistence entity for doctorslotlock records.
- */
 public class DoctorSlotLockJpaEntity {
 
     @Id
@@ -31,13 +31,16 @@ public class DoctorSlotLockJpaEntity {
     private LocalDateTime appointmentDateTime;
 
     /**
-     * Creates a new DoctorSlotLockJpaEntity instance.
+     * Creates an empty doctor slot lock entity required by JPA.
      */
     protected DoctorSlotLockJpaEntity() {
     }
 
     /**
-     * Creates a new DoctorSlotLockJpaEntity instance.
+     * Creates a doctor slot lock entity.
+     *
+     * @param doctorId doctor identifier
+     * @param appointmentDateTime locked appointment slot date-time
      */
     public DoctorSlotLockJpaEntity(Long doctorId, LocalDateTime appointmentDateTime) {
         this.doctorId = doctorId;
@@ -45,21 +48,21 @@ public class DoctorSlotLockJpaEntity {
     }
 
     /**
-     * Returns the id value.
+     * Returns the generated database identifier.
      */
     public Long getId() {
         return id;
     }
 
     /**
-     * Returns the doctorId value.
+     * Returns the doctor identifier stored by this entity.
      */
     public Long getDoctorId() {
         return doctorId;
     }
 
     /**
-     * Returns the appointmentDateTime value.
+     * Returns the appointment slot date-time stored by this entity.
      */
     public LocalDateTime getAppointmentDateTime() {
         return appointmentDateTime;

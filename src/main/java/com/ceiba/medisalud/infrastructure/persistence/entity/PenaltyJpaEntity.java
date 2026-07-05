@@ -33,13 +33,19 @@ public class PenaltyJpaEntity {
     private String reason;
 
     /**
-     * Creates a new PenaltyJpaEntity instance.
+     * Creates an empty penalty entity required by JPA.
      */
     protected PenaltyJpaEntity() {
     }
 
     /**
-     * Creates a new PenaltyJpaEntity instance.
+     * Creates a penalty entity with persisted column values.
+     *
+     * @param id database identifier
+     * @param patientId penalized patient identifier
+     * @param appointmentId appointment that originated the penalty
+     * @param penaltyDateTime date-time when the penalty was registered
+     * @param reason penalty reason
      */
     public PenaltyJpaEntity(Long id, Long patientId, Long appointmentId, LocalDateTime penaltyDateTime, String reason) {
         this.id = id;
@@ -50,35 +56,35 @@ public class PenaltyJpaEntity {
     }
 
     /**
-     * Returns the id value.
+     * Returns the generated database identifier.
      */
     public Long getId() {
         return id;
     }
 
     /**
-     * Returns the patientId value.
+     * Returns the patient identifier stored by this entity.
      */
     public Long getPatientId() {
         return patientId;
     }
 
     /**
-     * Returns the appointmentId value.
+     * Returns the appointment identifier stored by this entity.
      */
     public Long getAppointmentId() {
         return appointmentId;
     }
 
     /**
-     * Returns the penaltyDateTime value.
+     * Returns the penalty registration date-time.
      */
     public LocalDateTime getPenaltyDateTime() {
         return penaltyDateTime;
     }
 
     /**
-     * Returns the reason value.
+     * Returns the persisted penalty reason.
      */
     public String getReason() {
         return reason;

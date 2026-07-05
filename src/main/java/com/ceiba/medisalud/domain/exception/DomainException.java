@@ -1,14 +1,15 @@
 package com.ceiba.medisalud.domain.exception;
 
 /**
- * Represents a domain domain exception.
+ * Base type for domain exceptions translated by the REST exception handler.
  */
 public abstract class DomainException extends RuntimeException {
 
     /**
-     * Creates a new DomainException instance.
-     */
-    protected DomainException(String message) {
+     * Creates a domain exception with a human-readable message.
+     *
+     * @param message detail message returned to API clients
+     */    protected DomainException(String message) {
         super(message);
     }
 }

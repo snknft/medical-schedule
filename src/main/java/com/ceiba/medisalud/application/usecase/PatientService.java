@@ -21,14 +21,19 @@ public class PatientService {
     private final PatientRepositoryPort patientRepository;
 
     /**
-     * Creates a new PatientService instance.
+     * Creates the patient service with the patient persistence port.
+     *
+     * @param patientRepository port used to persist and query patients
      */
     public PatientService(PatientRepositoryPort patientRepository) {
         this.patientRepository = patientRepository;
     }
 
     /**
-     * Registers a new domain resource after validating its business constraints.
+     * Registers a new patient after checking document uniqueness.
+     *
+     * @param command registration command with patient data
+     * @return persisted patient
      */
     public Patient register(RegisterPatientCommand command) {
         if (patientRepository.existsByDocumentNumber(command.documentNumber())) {
@@ -46,7 +51,10 @@ public class PatientService {
     }
 
     /**
-     * Returns the byId value.
+     * Retrieves a patient by identifier.
+     *
+     * @param id patient identifier
+     * @return patient when found
      */
     @Transactional(readOnly = true)
     public Patient getById(Long id) {
@@ -55,7 +63,9 @@ public class PatientService {
     }
 
     /**
-     * Returns all persisted resources of the current type.
+     * Lists all registered patients.
+     *
+     * @return patients currently persisted in the system
      */
     @Transactional(readOnly = true)
     public List<Patient> findAll() {

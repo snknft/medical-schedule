@@ -376,6 +376,8 @@ Crear paciente:
 }
 ```
 
+Los teléfonos aceptan dígitos y separadores comunes (`+`, `-`, espacios y paréntesis), pero deben contener al menos 7 dígitos reales.
+
 ### Citas
 
 ```http
@@ -397,6 +399,16 @@ Crear cita:
 }
 ```
 
+También se aceptan los alias `pacienteId` y `medicoId` en el cuerpo de la solicitud:
+
+```json
+{
+  "pacienteId": 1,
+  "medicoId": 1,
+  "appointmentDateTime": "2026-07-06T08:00:00"
+}
+```
+
 Reprogramar cita:
 
 ```json
@@ -409,6 +421,12 @@ Filtros de listado:
 
 ```http
 GET /api/appointments?doctorId=1&patientId=1&status=PROGRAMADA&fechaInicio=2026-07-06T00:00:00&fechaFin=2026-07-10T23:59:59
+```
+
+Para facilitar la validación contra el enunciado, también se aceptan `medicoId` y `pacienteId` como alias de consulta:
+
+```http
+GET /api/appointments?medicoId=1&pacienteId=1&status=PROGRAMADA&fechaInicio=2026-07-06T00:00:00&fechaFin=2026-07-10T23:59:59
 ```
 
 ### Franjas disponibles

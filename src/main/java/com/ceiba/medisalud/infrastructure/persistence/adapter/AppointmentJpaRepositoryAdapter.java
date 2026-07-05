@@ -26,7 +26,9 @@ public class AppointmentJpaRepositoryAdapter implements AppointmentRepositoryPor
     private final SpringDataAppointmentJpaRepository repository;
 
     /**
-     * Creates a new AppointmentJpaRepositoryAdapter instance.
+     * Creates the appointment adapter with the Spring Data repository.
+     *
+     * @param repository Spring Data repository used for appointment persistence
      */
     public AppointmentJpaRepositoryAdapter(SpringDataAppointmentJpaRepository repository) {
         this.repository = repository;
@@ -34,6 +36,9 @@ public class AppointmentJpaRepositoryAdapter implements AppointmentRepositoryPor
 
     /**
      * Persists the provided domain object and returns the saved instance.
+     *
+     * @param appointment domain appointment to persist
+     * @return persisted appointment
      */
     @Override
     public Appointment save(Appointment appointment) {
@@ -42,6 +47,9 @@ public class AppointmentJpaRepositoryAdapter implements AppointmentRepositoryPor
 
     /**
      * Finds a resource by its identifier.
+     *
+     * @param id resource identifier
+     * @return optional domain object
      */
     @Override
     public Optional<Appointment> findById(Long id) {
@@ -50,6 +58,11 @@ public class AppointmentJpaRepositoryAdapter implements AppointmentRepositoryPor
 
     /**
      * Determines whether a doctor already has an active appointment in the provided slot.
+     *
+     * @param doctorId doctor identifier
+     * @param dateTime appointment slot date-time
+     * @param excludedAppointmentId appointment identifier ignored by the check
+     * @return {@code true} when a scheduled doctor conflict exists
      */
     @Override
     public boolean existsScheduledForDoctorAt(Long doctorId, LocalDateTime dateTime, Long excludedAppointmentId) {
@@ -64,6 +77,11 @@ public class AppointmentJpaRepositoryAdapter implements AppointmentRepositoryPor
 
     /**
      * Determines whether a patient already has an active appointment in the provided slot.
+     *
+     * @param patientId patient identifier
+     * @param dateTime appointment slot date-time
+     * @param excludedAppointmentId appointment identifier ignored by the check
+     * @return {@code true} when a scheduled patient conflict exists
      */
     @Override
     public boolean existsScheduledForPatientAt(Long patientId, LocalDateTime dateTime, Long excludedAppointmentId) {
@@ -78,6 +96,11 @@ public class AppointmentJpaRepositoryAdapter implements AppointmentRepositoryPor
 
     /**
      * Finds scheduled appointments for a doctor within the provided date-time range.
+     *
+     * @param doctorId doctor identifier
+     * @param from initial date-time included in the search
+     * @param to final date-time included in the search
+     * @return scheduled appointments for the doctor in the range
      */
     @Override
     public List<Appointment> findScheduledByDoctorBetween(Long doctorId, LocalDateTime from, LocalDateTime to) {
@@ -89,6 +112,9 @@ public class AppointmentJpaRepositoryAdapter implements AppointmentRepositoryPor
 
     /**
      * Searches appointments using the provided optional filters.
+     *
+     * @param criteria optional appointment filters
+     * @return appointments matching the criteria
      */
     @Override
     public List<Appointment> search(AppointmentSearchCriteria criteria) {

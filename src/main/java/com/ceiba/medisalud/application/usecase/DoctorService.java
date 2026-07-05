@@ -20,14 +20,19 @@ public class DoctorService {
     private final DoctorRepositoryPort doctorRepository;
 
     /**
-     * Creates a new DoctorService instance.
+     * Creates the doctor service with the doctor persistence port.
+     *
+     * @param doctorRepository port used to persist and query doctors
      */
     public DoctorService(DoctorRepositoryPort doctorRepository) {
         this.doctorRepository = doctorRepository;
     }
 
     /**
-     * Registers a new domain resource after validating its business constraints.
+     * Registers a new doctor.
+     *
+     * @param command registration command with doctor data
+     * @return persisted doctor
      */
     public Doctor register(RegisterDoctorCommand command) {
         Doctor doctor = new Doctor(
@@ -41,7 +46,10 @@ public class DoctorService {
     }
 
     /**
-     * Returns the byId value.
+     * Retrieves a doctor by identifier.
+     *
+     * @param id doctor identifier
+     * @return doctor when found
      */
     @Transactional(readOnly = true)
     public Doctor getById(Long id) {
@@ -50,7 +58,9 @@ public class DoctorService {
     }
 
     /**
-     * Returns all persisted resources of the current type.
+     * Lists all registered doctors.
+     *
+     * @return doctors currently persisted in the system
      */
     @Transactional(readOnly = true)
     public List<Doctor> findAll() {

@@ -19,7 +19,9 @@ public class PatientJpaRepositoryAdapter implements PatientRepositoryPort {
     private final SpringDataPatientJpaRepository repository;
 
     /**
-     * Creates a new PatientJpaRepositoryAdapter instance.
+     * Creates the patient adapter with the Spring Data repository.
+     *
+     * @param repository Spring Data repository used for patient persistence
      */
     public PatientJpaRepositoryAdapter(SpringDataPatientJpaRepository repository) {
         this.repository = repository;
@@ -27,6 +29,9 @@ public class PatientJpaRepositoryAdapter implements PatientRepositoryPort {
 
     /**
      * Persists the provided domain object and returns the saved instance.
+     *
+     * @param patient domain patient to persist
+     * @return persisted patient
      */
     @Override
     public Patient save(Patient patient) {
@@ -35,6 +40,9 @@ public class PatientJpaRepositoryAdapter implements PatientRepositoryPort {
 
     /**
      * Finds a resource by its identifier.
+     *
+     * @param id resource identifier
+     * @return optional domain object
      */
     @Override
     public Optional<Patient> findById(Long id) {
@@ -43,6 +51,8 @@ public class PatientJpaRepositoryAdapter implements PatientRepositoryPort {
 
     /**
      * Returns all persisted resources of the current type.
+     *
+     * @return all persisted domain objects
      */
     @Override
     public List<Patient> findAll() {
@@ -51,6 +61,9 @@ public class PatientJpaRepositoryAdapter implements PatientRepositoryPort {
 
     /**
      * Determines whether a patient already exists for the provided document number.
+     *
+     * @param documentNumber patient identity document number
+     * @return {@code true} when the document number is already registered
      */
     @Override
     public boolean existsByDocumentNumber(String documentNumber) {

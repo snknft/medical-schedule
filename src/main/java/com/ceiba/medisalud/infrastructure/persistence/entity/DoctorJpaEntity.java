@@ -31,13 +31,19 @@ public class DoctorJpaEntity {
     private String email;
 
     /**
-     * Creates a new DoctorJpaEntity instance.
+     * Creates an empty doctor entity required by JPA.
      */
     protected DoctorJpaEntity() {
     }
 
     /**
-     * Creates a new DoctorJpaEntity instance.
+     * Creates a doctor entity with persisted column values.
+     *
+     * @param id database identifier
+     * @param fullName complete name
+     * @param specialty medical specialty
+     * @param phone contact phone
+     * @param email contact email
      */
     public DoctorJpaEntity(Long id, String fullName, String specialty, String phone, String email) {
         this.id = id;
@@ -48,35 +54,35 @@ public class DoctorJpaEntity {
     }
 
     /**
-     * Returns the id value.
+     * Returns the generated database identifier.
      */
     public Long getId() {
         return id;
     }
 
     /**
-     * Returns the fullName value.
+     * Returns the persisted complete name.
      */
     public String getFullName() {
         return fullName;
     }
 
     /**
-     * Returns the specialty value.
+     * Returns the persisted specialty.
      */
     public String getSpecialty() {
         return specialty;
     }
 
     /**
-     * Returns the phone value.
+     * Returns the persisted contact phone.
      */
     public String getPhone() {
         return phone;
     }
 
     /**
-     * Returns the email value.
+     * Returns the persisted contact email.
      */
     public String getEmail() {
         return email;

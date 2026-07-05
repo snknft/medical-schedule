@@ -16,7 +16,9 @@ public class InitialDataLoader implements CommandLineRunner {
     private final DoctorRepositoryPort doctorRepository;
 
     /**
-     * Creates a new InitialDataLoader instance.
+     * Creates the data loader with the doctor service.
+     *
+     * @param doctorService service used to inspect seeded doctors
      */
     public InitialDataLoader(DoctorRepositoryPort doctorRepository) {
         this.doctorRepository = doctorRepository;

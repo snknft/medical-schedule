@@ -11,13 +11,16 @@ import com.ceiba.medisalud.infrastructure.persistence.entity.AppointmentJpaEntit
 public final class AppointmentJpaSpecifications {
 
     /**
-     * Creates a new AppointmentJpaSpecifications instance.
+     * Prevents instantiation of the specification utility class.
      */
     private AppointmentJpaSpecifications() {
     }
 
     /**
      * Builds a JPA specification from appointment search criteria.
+     *
+     * @param criteria optional appointment filters
+     * @return composed JPA specification
      */
     public static Specification<AppointmentJpaEntity> byCriteria(AppointmentSearchCriteria criteria) {
         return Specification
@@ -29,21 +32,30 @@ public final class AppointmentJpaSpecifications {
     }
 
     /**
-     * Executes the hasDoctor operation.
+     * Builds a specification that filters appointments by doctor.
+     *
+     * @param doctorId optional doctor identifier
+     * @return JPA specification for doctor filtering
      */
     private static Specification<AppointmentJpaEntity> hasDoctor(Long doctorId) {
         return (root, query, builder) -> doctorId == null ? null : builder.equal(root.get("doctorId"), doctorId);
     }
 
     /**
-     * Executes the hasPatient operation.
+     * Builds a specification that filters appointments by patient.
+     *
+     * @param patientId optional patient identifier
+     * @return JPA specification for patient filtering
      */
     private static Specification<AppointmentJpaEntity> hasPatient(Long patientId) {
         return (root, query, builder) -> patientId == null ? null : builder.equal(root.get("patientId"), patientId);
     }
 
     /**
-     * Executes the hasStatus operation.
+     * Builds a specification that filters appointments by status.
+     *
+     * @param status optional appointment status
+     * @return JPA specification for status filtering
      */
     private static Specification<AppointmentJpaEntity> hasStatus(Object status) {
         return (root, query, builder) -> status == null ? null : builder.equal(root.get("status"), status);
@@ -51,6 +63,9 @@ public final class AppointmentJpaSpecifications {
 
     /**
      * Builds a specification that filters appointments from a start date-time.
+     *
+     * @param fechaInicio optional lower bound date-time
+     * @return JPA specification for lower-bound date filtering
      */
     private static Specification<AppointmentJpaEntity> dateGreaterOrEqual(java.time.LocalDateTime fechaInicio) {
         return (root, query, builder) -> fechaInicio == null ? null : builder.greaterThanOrEqualTo(root.get("appointmentDateTime"), fechaInicio);
@@ -58,6 +73,9 @@ public final class AppointmentJpaSpecifications {
 
     /**
      * Builds a specification that filters appointments up to an end date-time.
+     *
+     * @param fechaFin optional upper bound date-time
+     * @return JPA specification for upper-bound date filtering
      */
     private static Specification<AppointmentJpaEntity> dateLessOrEqual(java.time.LocalDateTime fechaFin) {
         return (root, query, builder) -> fechaFin == null ? null : builder.lessThanOrEqualTo(root.get("appointmentDateTime"), fechaFin);

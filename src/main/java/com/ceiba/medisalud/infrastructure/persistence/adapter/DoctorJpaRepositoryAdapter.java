@@ -19,7 +19,9 @@ public class DoctorJpaRepositoryAdapter implements DoctorRepositoryPort {
     private final SpringDataDoctorJpaRepository repository;
 
     /**
-     * Creates a new DoctorJpaRepositoryAdapter instance.
+     * Creates the doctor adapter with the Spring Data repository.
+     *
+     * @param repository Spring Data repository used for doctor persistence
      */
     public DoctorJpaRepositoryAdapter(SpringDataDoctorJpaRepository repository) {
         this.repository = repository;
@@ -27,6 +29,9 @@ public class DoctorJpaRepositoryAdapter implements DoctorRepositoryPort {
 
     /**
      * Persists the provided domain object and returns the saved instance.
+     *
+     * @param doctor domain doctor to persist
+     * @return persisted doctor
      */
     @Override
     public Doctor save(Doctor doctor) {
@@ -35,6 +40,9 @@ public class DoctorJpaRepositoryAdapter implements DoctorRepositoryPort {
 
     /**
      * Finds a resource by its identifier.
+     *
+     * @param id resource identifier
+     * @return optional domain object
      */
     @Override
     public Optional<Doctor> findById(Long id) {
@@ -43,6 +51,8 @@ public class DoctorJpaRepositoryAdapter implements DoctorRepositoryPort {
 
     /**
      * Returns all persisted resources of the current type.
+     *
+     * @return all persisted domain objects
      */
     @Override
     public List<Doctor> findAll() {
@@ -51,6 +61,9 @@ public class DoctorJpaRepositoryAdapter implements DoctorRepositoryPort {
 
     /**
      * Determines whether a resource exists for the provided identifier.
+     *
+     * @param id resource identifier
+     * @return {@code true} when the resource exists
      */
     @Override
     public boolean existsById(Long id) {
@@ -59,6 +72,8 @@ public class DoctorJpaRepositoryAdapter implements DoctorRepositoryPort {
 
     /**
      * Counts the number of persisted resources.
+     *
+     * @return total number of persisted resources
      */
     @Override
     public long count() {

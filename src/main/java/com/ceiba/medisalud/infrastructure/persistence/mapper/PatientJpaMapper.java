@@ -9,13 +9,16 @@ import com.ceiba.medisalud.infrastructure.persistence.entity.PatientJpaEntity;
 public final class PatientJpaMapper {
 
     /**
-     * Creates a new PatientJpaMapper instance.
+     * Prevents instantiation of the PatientJpaMapper utility class.
      */
     private PatientJpaMapper() {
     }
 
     /**
-     * Maps a persistence representation into a domain object.
+     * Maps a patient JPA entity into a domain object.
+     *
+     * @param entity patient JPA entity
+     * @return patient domain object
      */
     public static Patient toDomain(PatientJpaEntity entity) {
         return new Patient(
@@ -29,7 +32,10 @@ public final class PatientJpaMapper {
     }
 
     /**
-     * Maps a domain object into a persistence representation.
+     * Maps a patient domain object into a JPA entity.
+     *
+     * @param patient patient domain object
+     * @return patient JPA entity
      */
     public static PatientJpaEntity toEntity(Patient patient) {
         return new PatientJpaEntity(

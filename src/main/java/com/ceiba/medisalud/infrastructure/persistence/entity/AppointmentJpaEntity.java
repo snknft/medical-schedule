@@ -44,13 +44,20 @@ public class AppointmentJpaEntity {
     private LocalDateTime cancellationDateTime;
 
     /**
-     * Creates a new AppointmentJpaEntity instance.
+     * Creates an empty appointment entity required by JPA.
      */
     protected AppointmentJpaEntity() {
     }
 
     /**
-     * Creates a new AppointmentJpaEntity instance.
+     * Creates an appointment entity with persisted column values.
+     *
+     * @param id database identifier
+     * @param patientId patient identifier
+     * @param doctorId doctor identifier
+     * @param appointmentDateTime appointment slot date-time
+     * @param status appointment status
+     * @param cancellationDateTime cancellation date-time when present
      */
     public AppointmentJpaEntity(
             Long id,
@@ -69,42 +76,42 @@ public class AppointmentJpaEntity {
     }
 
     /**
-     * Returns the id value.
+     * Returns the generated database identifier.
      */
     public Long getId() {
         return id;
     }
 
     /**
-     * Returns the patientId value.
+     * Returns the patient identifier stored by this entity.
      */
     public Long getPatientId() {
         return patientId;
     }
 
     /**
-     * Returns the doctorId value.
+     * Returns the doctor identifier stored by this entity.
      */
     public Long getDoctorId() {
         return doctorId;
     }
 
     /**
-     * Returns the appointmentDateTime value.
+     * Returns the appointment slot date-time stored by this entity.
      */
     public LocalDateTime getAppointmentDateTime() {
         return appointmentDateTime;
     }
 
     /**
-     * Returns the status value.
+     * Returns the persisted appointment status.
      */
     public AppointmentStatus getStatus() {
         return status;
     }
 
     /**
-     * Returns the cancellationDateTime value.
+     * Returns the persisted cancellation date-time.
      */
     public LocalDateTime getCancellationDateTime() {
         return cancellationDateTime;

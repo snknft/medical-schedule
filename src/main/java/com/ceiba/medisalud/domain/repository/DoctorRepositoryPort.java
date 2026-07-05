@@ -11,27 +11,40 @@ import com.ceiba.medisalud.domain.model.Doctor;
 public interface DoctorRepositoryPort {
 
     /**
-     * Persists the provided domain object and returns the saved instance.
+     * Persists the provided doctor and returns the saved instance.
+     *
+     * @param doctor doctor to persist
+     * @return persisted doctor
      */
     Doctor save(Doctor doctor);
 
     /**
-     * Finds a resource by its identifier.
+     * Finds a doctor by its identifier.
+     *
+     * @param id doctor identifier
+     * @return optional doctor
      */
     Optional<Doctor> findById(Long id);
 
     /**
-     * Returns all persisted resources of the current type.
+     * Returns all persisted doctors.
+     *
+     * @return all persisted doctors
      */
     List<Doctor> findAll();
 
     /**
-     * Determines whether a resource exists for the provided identifier.
+     * Determines whether a doctor exists for the provided identifier.
+     *
+     * @param id doctor identifier
+     * @return {@code true} when the doctor exists
      */
     boolean existsById(Long id);
 
     /**
-     * Counts the number of persisted resources.
+     * Counts persisted doctors.
+     *
+     * @return number of persisted doctors
      */
     long count();
 }

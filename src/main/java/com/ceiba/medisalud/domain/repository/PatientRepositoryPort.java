@@ -11,22 +11,33 @@ import com.ceiba.medisalud.domain.model.Patient;
 public interface PatientRepositoryPort {
 
     /**
-     * Persists the provided domain object and returns the saved instance.
+     * Persists the provided patient and returns the saved instance.
+     *
+     * @param patient patient to persist
+     * @return persisted patient
      */
     Patient save(Patient patient);
 
     /**
-     * Finds a resource by its identifier.
+     * Finds a patient by its identifier.
+     *
+     * @param id patient identifier
+     * @return optional patient
      */
     Optional<Patient> findById(Long id);
 
     /**
-     * Returns all persisted resources of the current type.
+     * Returns all persisted patients.
+     *
+     * @return all persisted patients
      */
     List<Patient> findAll();
 
     /**
      * Determines whether a patient already exists for the provided document number.
+     *
+     * @param documentNumber identity document number
+     * @return {@code true} when the document number is already registered
      */
     boolean existsByDocumentNumber(String documentNumber);
 }

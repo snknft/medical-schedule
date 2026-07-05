@@ -20,7 +20,7 @@ import com.ceiba.medisalud.infrastructure.rest.mapper.ApiResponseMapper;
 import jakarta.validation.Valid;
 
 /**
- * Exposes REST endpoints for patient operations.
+ * Exposes REST endpoints for patient registration and queries.
  */
 @RestController
 @RequestMapping("/api/patients")
@@ -29,14 +29,19 @@ public class PatientController {
     private final PatientService patientService;
 
     /**
-     * Creates a new PatientController instance.
+     * Creates the controller with the patient application service.
+     *
+     * @param patientService application service that handles patient use cases
      */
     public PatientController(PatientService patientService) {
         this.patientService = patientService;
     }
 
     /**
-     * Handles the REST request that creates a new resource.
+     * Registers a patient from the request payload.
+     *
+     * @param request patient registration payload
+     * @return created patient response
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -51,7 +56,9 @@ public class PatientController {
     }
 
     /**
-     * Returns all persisted resources of the current type.
+     * Lists all registered patients.
+     *
+     * @return patients currently persisted in the system
      */
     @GetMapping
     public List<PatientResponse> findAll() {
@@ -59,7 +66,10 @@ public class PatientController {
     }
 
     /**
-     * Handles the REST request that retrieves a patient by identifier.
+     * Retrieves a patient by identifier.
+     *
+     * @param id patient identifier
+     * @return patient response
      */
     @GetMapping("/{id}")
     public PatientResponse getById(@PathVariable Long id) {

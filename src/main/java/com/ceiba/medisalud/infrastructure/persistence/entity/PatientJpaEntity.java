@@ -10,14 +10,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
+/**
+ * Represents the JPA persistence entity for patient records.
+ */
 @Entity
 @Table(
         name = "patients",
         uniqueConstraints = @UniqueConstraint(name = "uk_patient_document", columnNames = "document_number")
 )
-/**
- * Represents the JPA persistence entity for patient records.
- */
 public class PatientJpaEntity {
 
     @Id
@@ -40,13 +40,20 @@ public class PatientJpaEntity {
     private LocalDate birthDate;
 
     /**
-     * Creates a new PatientJpaEntity instance.
+     * Creates an empty patient entity required by JPA.
      */
     protected PatientJpaEntity() {
     }
 
     /**
-     * Creates a new PatientJpaEntity instance.
+     * Creates a patient entity with persisted column values.
+     *
+     * @param id database identifier
+     * @param fullName complete name
+     * @param documentNumber identity document number
+     * @param phone contact phone
+     * @param email contact email
+     * @param birthDate birth date
      */
     public PatientJpaEntity(Long id, String fullName, String documentNumber, String phone, String email, LocalDate birthDate) {
         this.id = id;
@@ -58,42 +65,42 @@ public class PatientJpaEntity {
     }
 
     /**
-     * Returns the id value.
+     * Returns the generated database identifier.
      */
     public Long getId() {
         return id;
     }
 
     /**
-     * Returns the fullName value.
+     * Returns the persisted complete name.
      */
     public String getFullName() {
         return fullName;
     }
 
     /**
-     * Returns the documentNumber value.
+     * Returns the persisted identity document number.
      */
     public String getDocumentNumber() {
         return documentNumber;
     }
 
     /**
-     * Returns the phone value.
+     * Returns the persisted contact phone.
      */
     public String getPhone() {
         return phone;
     }
 
     /**
-     * Returns the email value.
+     * Returns the persisted contact email.
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     * Returns the birthDate value.
+     * Returns the persisted birth date.
      */
     public LocalDate getBirthDate() {
         return birthDate;
